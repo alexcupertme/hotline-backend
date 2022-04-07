@@ -16,11 +16,11 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: ${{matrix.node-version}}
-
       - uses: appleboy/ssh-action@master
+
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.PRIVATE_KEY }}
+          key: ${{ secrets.SSH_KEY }}
           script: "cd hotline-backend && git pull && chmod +x ./deploy.sh && ./deploy.sh"
 
