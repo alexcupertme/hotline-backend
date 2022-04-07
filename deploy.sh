@@ -1,4 +1,4 @@
-forever stop backend
+pm2 stop backend
 pnpm i
 npm run build
-forever start --uid "backend" -c "npm run prod" ./
+pm2 start --name backend npm -- run prod
