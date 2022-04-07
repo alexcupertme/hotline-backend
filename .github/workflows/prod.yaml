@@ -16,8 +16,13 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: ${{matrix.node-version}}
+          
+        env:
+          POSTGRES_USR: ${{ secrets.POSTGRES_USR }}
+          POSTGRES_PWD: ${{ secrets.POSTGRES_PWD }}
+          REDIS_PWD: ${{ secrets.REDIS_PWD }}
+          
       - uses: appleboy/ssh-action@master
-
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
