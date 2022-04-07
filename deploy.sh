@@ -1,4 +1,4 @@
-VALID_ARGS=$(getopt -o abg:d: --long alpha,beta,gamma:,delta: -- "$@")
+VALID_ARGS=$(getopt -o r:p:u: --long redispwd:,postgrespwd:,postgresusr: -- "$@")
 if [[ $? -ne 0 ]]; then
     exit 1;
 fi
