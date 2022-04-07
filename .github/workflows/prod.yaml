@@ -22,5 +22,5 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          script: "cd hotline-backend && git pull -f && chmod +x ./deploy.sh && ./deploy.sh"
+          script: "cd hotline-backend && git reset --hard && git pull -f && chmod +x ./deploy.sh && ./deploy.sh"
 
