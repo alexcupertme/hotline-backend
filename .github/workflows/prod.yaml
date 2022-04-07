@@ -1,7 +1,7 @@
-name : testdev
+name: testdev
 
-on :
-  push :
+on:
+  push:
     branches:
       - master
 
@@ -10,12 +10,17 @@ jobs:
     runs-on: ubuntu-18.04
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [ 16.x ]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
-          node-version : ${{matrix.node-version}}
-      - run: npm ci
-      - run: npm run build
-      - run: npm run prod
+          node-version: ${{matrix.node-version}}
+
+      - uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.PRIVATE_KEY }}
+          script: "cd hotline-backend && git pull && chmod +x ./deploy.sh && ./deploy.sh"
+
