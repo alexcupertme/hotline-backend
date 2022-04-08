@@ -13,12 +13,19 @@ jobs:
         node-version: [ 16.x ]
     steps:
       - uses: actions/checkout@v2
-      
+      - run: echo ${{ secrets }}
       - uses: appleboy/ssh-action@master
         env:
           POSTGRES_USR: ${{ secrets.POSTGRES_USR }}
           POSTGRES_PWD: ${{ secrets.POSTGRES_PWD }}
           POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+          POSTGRES_PORT: ${{ secrets.POSTGRES_PORT }}
+          
+          POSTGRESPANEL_PORT: ${{ secrets.POSTGRESPANEL_PORT }}
+          POSTGRESPANEL_PWD: ${{ secrets.POSTGRESPANEL_PWD }}
+          POSTGRESPANEL_EMAIL: ${{ secrets.POSTGRESPANEL_EMAIL }}
+          
+          REDIS_PORT: ${{ secrets.REDIS_PORT }}
           REDIS_PWD: ${{ secrets.REDIS_PWD }}
         with:
           host: ${{ secrets.HOST }}
