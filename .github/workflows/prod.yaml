@@ -13,19 +13,20 @@ jobs:
         node-version: [ 16.x ]
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: ${{matrix.node-version}}
-          
+      
+      - uses: appleboy/ssh-action@master
         env:
           POSTGRES_USR: ${{ secrets.POSTGRES_USR }}
           POSTGRES_PWD: ${{ secrets.POSTGRES_PWD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
           REDIS_PWD: ${{ secrets.REDIS_PWD }}
-          
-      - uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSH_KEY }}
-          script: "cd hotline-backend && git reset --hard && git pull -f && chmod +x ./deploy.sh && ./deploy.sh"
-
+          script: |
+                  cd hotline-backend && \
+                  git reset --hard && \
+                  git pull -f && \
+                  chmod +x ./deploy.sh && \
+                  ./deploy.sh"
