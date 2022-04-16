@@ -10,4 +10,4 @@ fi
 docker build --build-arg port="${BACKEND_PORT}" . -t vzlomed/hotlinebackend
 
 cd ..
-docker-compose --env-file .env restart -d backend
+docker-compose --env-file .env up --restart -d backend
