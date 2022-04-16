@@ -37,3 +37,4 @@ jobs:
                   git pull -f && \
                   chmod +x ./deploy.sh && \
                   ./deploy.sh
+                  
