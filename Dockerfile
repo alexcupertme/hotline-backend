@@ -1,5 +1,7 @@
 #
 # ---- Base Node ----
+ARG port
+
 FROM mhart/alpine-node:latest as base
 RUN apk add nodejs-current tini
 WORKDIR /root/backend
@@ -13,4 +15,5 @@ RUN pnpm i
 
 RUN pnpm run build
 
+EXPOSE ${port}
 CMD ["pnpm", "run", "prod"]

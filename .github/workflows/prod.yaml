@@ -36,4 +36,5 @@ jobs:
                   git reset --hard && \
                   git pull -f && \
                   chmod +x ./deploy.sh && \
-                  ./deploy.sh"
+                  ./deploy.sh
+                  

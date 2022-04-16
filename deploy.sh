@@ -1,5 +1,13 @@
-pm2 stop backend
-pnpm i
 envault --constructive --force
-npm run build
-pm2 start --name backend npm -- run prod
+cd hotline-backend
+envault --constructive --force
+
+if [ ! -f .env ]
+then
+  export $(cat .env | xargs)
+fi
+
+docker build --build-arg port="${BACKEND_PORT}" . -t vzlomed/hotlinebackend
+
+cd ..
+docker-compose --env-file .env up -d --force-recreate backend
