@@ -15,5 +15,5 @@ RUN pnpm i
 
 RUN pnpm run build
 
-EXPOSE /tcp
+EXPOSE port
 CMD ["pnpm", "run", "prod"]
