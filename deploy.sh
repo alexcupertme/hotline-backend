@@ -1,5 +1,7 @@
-pm2 stop backend
-pnpm i
 envault --constructive --force
-npm run build
-pm2 start --name backend npm -- run prod
+cd hotline-backend
+envault --constructive --force
+docker build . -t vzlomed/hotlinebackend
+
+cd ..
+docker-compose --env-file .env restart -d backend
