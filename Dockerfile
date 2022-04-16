@@ -6,7 +6,11 @@ WORKDIR /root/backend
 
 ENTRYPOINT ["/sbin/tini", "--"]
 
+RUN npm i -g pnpm@latest
 COPY . .
-RUN npm run build
 
-CMD ["npm", "run", "prod"]
+RUN pnpm i
+
+RUN pnpm run build
+
+CMD ["pnpm", "run", "prod"]
