@@ -1,4 +1,4 @@
 export class ModelEntity {
-  id: string;
-  [key: string]: any;
+    id: string;
+    [key: string]: any
 }

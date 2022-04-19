@@ -4,14 +4,14 @@ import {ConfigModule} from '@nestjs/config';
 import configuration from "@config/jwt/configuration";
 import {JwtConfigService} from "@config/jwt/config.service";
 
-@Module ( {
+@Module({
     imports: [
-        ConfigModule.forRoot ( {
+        ConfigModule.forRoot({
             load: [configuration],
-            validationSchema: Joi.object ( {
-                JWT_SECRET: Joi.string (),
-            } ),
-        } ),
+            validationSchema: Joi.object({
+                JWT_SECRET: Joi.string(),
+            }),
+        }),
     ],
     providers: [JwtConfigService],
     exports: [JwtConfigService],

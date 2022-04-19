@@ -1,12 +1,19 @@
 #
 # ---- Base Node ----
+ARG port
+
 FROM mhart/alpine-node:latest as base
 RUN apk add nodejs-current tini
 WORKDIR /root/backend
 
 ENTRYPOINT ["/sbin/tini", "--"]
 
+RUN npm i -g pnpm@latest
 COPY . .
-RUN npm run build
 
-CMD ["npm", "run", "prod"]
+RUN pnpm i
+
+RUN pnpm run build
+
+EXPOSE ${port}
+CMD ["pnpm", "run", "prod"]
