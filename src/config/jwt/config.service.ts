@@ -1,21 +1,20 @@
-import {Injectable} from '@nestjs/common';
-import {ConfigService} from '@nestjs/config';
+import { Injectable } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 
 /**
  * Service dealing with app config based operations.
  *
  * @class
  */
-@Injectable ()
+@Injectable()
 export class JwtConfigService {
-    constructor ( private configService: ConfigService ) {
+    constructor(private configService: ConfigService) {}
+
+    get secret(): string {
+        return String(this.configService.get<string>(`jwtSecret.secret`))
     }
 
-    get secret (): string {
-        return String ( this.configService.get<string> ( `jwtSecret.secret` ) );
-    }
-
-    get redisPrefix (): string {
-        return String ( this.configService.get<string> ( `jwtSecret.redisPrefix` ) );
+    get redisPrefix(): string {
+        return String(this.configService.get<string>(`jwtSecret.redisPrefix`))
     }
 }
