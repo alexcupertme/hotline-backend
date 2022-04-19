@@ -1,18 +1,18 @@
-import { DatabaseType } from 'typeorm'
+import { IRedisConfigService } from '@config/cache/redis/config.interface'
+import { RedisConfigModule } from '@config/cache/redis/config.module'
+import { IPostgresConfigService } from '@config/database/postgres/config.interface'
+import { PostgresConfigModule } from '@config/database/postgres/config.module'
 import { Module } from '@nestjs/common'
 import { TypeOrmModule, TypeOrmModuleAsyncOptions } from '@nestjs/typeorm'
-import { PostgresConfigModule } from '@config/database/postgres/config.module'
-import { PostgresConfigService } from '@config/database/postgres/config.service'
-import { RedisConfigService } from '@config/cache/redis/config.service'
-import { RedisConfigModule } from '@config/cache/redis/config.module'
+import { DatabaseType } from 'typeorm'
 
 @Module({
     imports: [
         TypeOrmModule.forRootAsync({
             imports: [PostgresConfigModule, RedisConfigModule],
             useFactory: async (
-                postgresConfigService: PostgresConfigService,
-                redisConfigService: RedisConfigService
+                postgresConfigService: IPostgresConfigService,
+                redisConfigService: IRedisConfigService
             ) => ({
                 type: 'postgres' as DatabaseType,
                 host: postgresConfigService.host,
@@ -20,7 +20,7 @@ import { RedisConfigModule } from '@config/cache/redis/config.module'
                 username: postgresConfigService.username,
                 password: postgresConfigService.password,
                 database: postgresConfigService.database,
-                logging: true,
+                logging: false,
                 synchronize: true,
                 migrationsRun: false,
                 cache: {
@@ -39,7 +39,7 @@ import { RedisConfigModule } from '@config/cache/redis/config.module'
                 entities: [__dirname + '/../../../**/*.entity.js'],
                 migrations: [__dirname + '/../../../database/migrations/**/*.js'],
             }),
-            inject: [PostgresConfigService, RedisConfigService],
+            inject: [IPostgresConfigService, IRedisConfigService],
         } as TypeOrmModuleAsyncOptions),
     ],
 })

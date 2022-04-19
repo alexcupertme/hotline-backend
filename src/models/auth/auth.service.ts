@@ -1,45 +1,36 @@
-import { InvalidEmailOrPasswordException } from '@core/exceptions/invalid-email-or-password.exception'
-import { BadRequestException, Injectable } from '@nestjs/common'
-import { hash, verify } from 'argon2'
-import * as uuid from 'uuid'
-import { JwtAuthService } from '../../auth/jwt/jwt.service'
+import { BadRequestException, Inject, Injectable } from '@nestjs/common'
+import { InjectRepository } from '@nestjs/typeorm'
 import { CreateUserDto } from '../users/dto/create.user.dto'
-import { LoginUserDto } from '../users/dto/login.user.dto'
 import { UserEntity } from '../users/serializers/user.serializer'
 import { UsersRepository } from '../users/users.repository'
+import { IJwtAuthService } from './../../auth/jwt/jwt.interface'
 
 @Injectable()
 export class AuthService {
-    constructor(private readonly usersRepository: UsersRepository, private readonly jwtAuthService: JwtAuthService) {}
+    constructor(
+        @InjectRepository(UsersRepository)
+        private readonly usersRepository: UsersRepository,
+        @Inject(IJwtAuthService) private readonly jwtAuthService: IJwtAuthService
+    ) {}
 
     async register(dto: CreateUserDto) {
         const oldUser = await this.usersRepository.findOne({
             email: dto.email,
         })
         if (oldUser) throw new BadRequestException('User with this email already exist')
-        dto.password = await hash(dto.password)
-        const genUUID = uuid.v4()
-        const newUser = await this.usersRepository.createEntity({ ...dto, sessionId: genUUID })
-        newUser.token = await this.jwtAuthService.issueToken(genUUID)
-        return newUser
+        const newUser = await this.usersRepository.createUser(dto)
+        return { ...newUser, token: await this.jwtAuthService.issueToken(newUser.sessionId) }
     }
 
-    async login(dto: LoginUserDto) {
-        const oldUser = await this.usersRepository.findOne({
-            email: dto.email,
-        })
-        if (!oldUser) throw new InvalidEmailOrPasswordException()
-        const isPasswordEqual = await verify(oldUser.password, dto.password)
-        if (!isPasswordEqual) throw new InvalidEmailOrPasswordException()
-        const genUUID = uuid.v4()
-        await this.usersRepository.updateEntity(oldUser, { sessionId: genUUID })
+    async login(user: UserEntity) {
+        const fetchedUser = await this.usersRepository.refreshSession(user)
         return {
-            token: await this.jwtAuthService.renewToken(oldUser.sessionId, genUUID),
+            token: await this.jwtAuthService.renewToken(user.sessionId, fetchedUser.sessionId),
         }
     }
 
     async logout(user: UserEntity) {
         await this.usersRepository.updateEntity(user, { sessionId: null })
-        return await this.jwtAuthService.deactivateToken(user.sessionId)
+        this.jwtAuthService.deactivateToken(user.sessionId)
     }
 }

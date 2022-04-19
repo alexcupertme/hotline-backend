@@ -20,7 +20,8 @@
         "noFallthroughCasesInSwitch": false,
         "paths": {
             "@config/*": ["config/*"],
-            "@core/*": ["core/*"]
+            "@core/*": ["core/*"],
+            "@models/*": ["models/*"]
         }
     }
 }

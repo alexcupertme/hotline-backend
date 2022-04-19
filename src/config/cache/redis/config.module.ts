@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
-import { ConfigModule, ConfigService } from '@nestjs/config'
+import { ConfigModule } from '@nestjs/config'
 import * as Joi from 'joi'
+import { IRedisConfigService } from './config.interface'
 import { RedisConfigService } from './config.service'
 import configuration from './configuration'
 /**
@@ -19,7 +20,17 @@ import configuration from './configuration'
             }),
         }),
     ],
-    providers: [ConfigService, RedisConfigService],
-    exports: [ConfigService, RedisConfigService],
+    providers: [
+        {
+            provide: IRedisConfigService,
+            useClass: RedisConfigService,
+        },
+    ],
+    exports: [
+        {
+            provide: IRedisConfigService,
+            useClass: RedisConfigService,
+        },
+    ],
 })
 export class RedisConfigModule {}

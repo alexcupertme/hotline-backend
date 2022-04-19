@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
-import { ConfigModule, ConfigService } from '@nestjs/config'
+import { ConfigModule } from '@nestjs/config'
 import * as Joi from 'joi'
+import { IAppConfigService } from './config.interface'
 import { AppConfigService } from './config.service'
 import configuration from './configuration'
 
@@ -14,7 +15,17 @@ import configuration from './configuration'
             }),
         }),
     ],
-    providers: [ConfigService, AppConfigService],
-    exports: [ConfigService, AppConfigService],
+    providers: [
+        {
+            provide: IAppConfigService,
+            useClass: AppConfigService,
+        },
+    ],
+    exports: [
+        {
+            provide: IAppConfigService,
+            useClass: AppConfigService,
+        },
+    ],
 })
 export class AppConfigModule {}

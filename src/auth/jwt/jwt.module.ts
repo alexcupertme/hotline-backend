@@ -1,23 +1,24 @@
-import { Module } from '@nestjs/common'
-import { JwtConfigService } from '@config/jwt/config.service'
+import { IJwtConfigService } from '@config/jwt/config.interface'
 import { JwtConfigModule } from '@config/jwt/config.module'
+import { RedisCacheModule } from '@core/services/cache/redis/redis-cache.module'
+import { Module } from '@nestjs/common'
 import { JwtModule } from '@nestjs/jwt'
+import { IJwtAuthService } from './jwt.interface'
 import { JwtAuthService } from './jwt.service'
-import { CacheModule } from '@core/services/cache/cache.module'
 
 @Module({
     imports: [
         JwtConfigModule,
-        CacheModule,
+        RedisCacheModule,
         JwtModule.registerAsync({
             imports: [JwtConfigModule],
-            useFactory: async (jwtConfigService: JwtConfigService) => ({
+            useFactory: async (jwtConfigService: IJwtConfigService) => ({
                 secret: jwtConfigService.secret,
             }),
-            inject: [JwtConfigService],
+            inject: [IJwtConfigService],
         }),
     ],
-    providers: [JwtAuthService],
-    exports: [JwtModule, JwtAuthService],
+    providers: [{ provide: IJwtAuthService, useClass: JwtAuthService }],
+    exports: [{ provide: IJwtAuthService, useClass: JwtAuthService }],
 })
 export class JwtProviderModule {}
