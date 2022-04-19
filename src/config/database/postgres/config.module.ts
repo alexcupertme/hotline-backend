@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common'
-import { ConfigModule, ConfigService } from '@nestjs/config'
+import { ConfigModule } from '@nestjs/config'
 import * as Joi from 'joi'
+import { IPostgresConfigService } from './config.interface'
 import { PostgresConfigService } from './config.service'
 import configuration from './configuration'
 /**
@@ -21,7 +22,17 @@ import configuration from './configuration'
             }),
         }),
     ],
-    providers: [ConfigService, PostgresConfigService],
-    exports: [ConfigService, PostgresConfigService],
+    providers: [
+        {
+            provide: IPostgresConfigService,
+            useClass: PostgresConfigService,
+        },
+    ],
+    exports: [
+        {
+            provide: IPostgresConfigService,
+            useClass: PostgresConfigService,
+        },
+    ],
 })
 export class PostgresConfigModule {}

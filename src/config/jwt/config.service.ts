@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
+import { IJwtConfigService } from './config.interface'
 
 @Injectable()
-export class JwtConfigService {
+export class JwtConfigService implements IJwtConfigService {
     constructor(private readonly configService: ConfigService) {}
 
     get secret(): string {
