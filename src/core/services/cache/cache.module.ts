@@ -1,9 +1,7 @@
-import {Module} from "@nestjs/common";
-import {CacheService} from "@core/services/cache/cache.service";
-@Module ( {
+import { CacheService } from '@core/services/cache/cache.service'
+import { Module } from '@nestjs/common'
+@Module({
     exports: [CacheService],
-    providers: [CacheService]
-} )
-
-export class CacheModule {
-}
+    providers: [CacheService],
+})
+export class CacheModule {}

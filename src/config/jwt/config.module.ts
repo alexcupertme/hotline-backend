@@ -1,8 +1,8 @@
-import * as Joi from 'joi';
-import {Module} from '@nestjs/common';
-import {ConfigModule} from '@nestjs/config';
-import configuration from "@config/jwt/configuration";
-import {JwtConfigService} from "@config/jwt/config.service";
+import * as Joi from 'joi'
+import { Module } from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
+import configuration from '@config/jwt/configuration'
+import { JwtConfigService } from '@config/jwt/config.service'
 
 @Module({
     imports: [
@@ -15,6 +15,5 @@ import {JwtConfigService} from "@config/jwt/config.service";
     ],
     providers: [JwtConfigService],
     exports: [JwtConfigService],
-} )
-export class JwtConfigModule {
-}
+})
+export class JwtConfigModule {}
