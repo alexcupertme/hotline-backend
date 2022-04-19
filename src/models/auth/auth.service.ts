@@ -21,7 +21,7 @@ export class AuthService {
         dto.password = await hash ( dto.password )
         const genUUID = uuid.v4 ()
         const newUser = await this.usersRepository.createEntity ( {...dto, sessionId: genUUID} )
-        newUser.token = await this.jwtAuthService.issueToken ( newUser.sessionId )
+        newUser.token = await this.jwtAuthService.issueToken ( genUUID )
         return newUser
     }
 

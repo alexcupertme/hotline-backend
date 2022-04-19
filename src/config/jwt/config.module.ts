@@ -1,6 +1,6 @@
 import * as Joi from 'joi';
 import {Module} from '@nestjs/common';
-import {ConfigModule, ConfigService} from '@nestjs/config';
+import {ConfigModule} from '@nestjs/config';
 import configuration from "@config/jwt/configuration";
 import {JwtConfigService} from "@config/jwt/config.service";
 
@@ -13,8 +13,8 @@ import {JwtConfigService} from "@config/jwt/config.service";
             } ),
         } ),
     ],
-    providers: [ConfigService, JwtConfigService],
-    exports: [ConfigService, JwtConfigService],
+    providers: [JwtConfigService],
+    exports: [JwtConfigService],
 } )
 export class JwtConfigModule {
 }
