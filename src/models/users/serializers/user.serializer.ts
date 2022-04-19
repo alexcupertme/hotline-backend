@@ -1,4 +1,4 @@
-import {Expose} from "class-transformer";
+import {Exclude, Expose} from "class-transformer";
 import {IUser} from "../interfaces/user.interface";
 import {ModelEntity} from "@core/serializers/model.serializer";
 
@@ -10,6 +10,7 @@ export class UserEntity extends ModelEntity implements IUser {
     id: string;
     email: string;
     name: null | string;
+    @Exclude()
     sessionId ?: string | undefined
     @Expose ( {groups: ["user.password"]} )
     password: string;

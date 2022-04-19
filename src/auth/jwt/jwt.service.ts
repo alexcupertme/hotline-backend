@@ -1,29 +1,29 @@
 import {Injectable, UnauthorizedException} from "@nestjs/common";
-import {InjectRedis, Redis} from "@nestjs-modules/ioredis";
 import {JwtService} from "@nestjs/jwt";
-import {JwtConfigService} from "@config/jwt/config.service";
 import {UserEntity} from "../../models/users/serializers/user.serializer";
+import {CacheService} from "@core/services/cache/cache.service";
+import {JwtConfigService} from "@config/jwt/config.service";
 
 @Injectable ()
 export class JwtAuthService {
-    private readonly redisPrefix: string
+    constructor ( private readonly jwtService: JwtService, private readonly cacheService: CacheService, private readonly jwtConfig: JwtConfigService ) {
+    }
 
-    constructor ( private readonly jwtService: JwtService, @InjectRedis () private readonly redis: Redis, private readonly jwtConfig: JwtConfigService ) {
-        this.redisPrefix = jwtConfig.redisPrefix
+    private async cacheToken ( sessionId: string, token: string ) {
+        await this.cacheService.add ( this.jwtConfig.tokenPrefix, sessionId, token, this.jwtConfig.ttl )
     }
 
     async issueToken ( sessionId: string ) {
-        const data = {sessionId}
-        const token = await this.jwtService.signAsync ( data, {
+        const token = await this.jwtService.signAsync ( {sessionId}, {
             expiresIn: '15d'
         } )
-        this.redis.set ( `${this.redisPrefix}${sessionId}`, token, "EX", 60 * 60 * 24 * 15 );
+        await this.cacheToken ( sessionId, token )
         return token
     }
 
     async verifyToken ( accessToken: string ) {
         const user = await this.jwtService.verifyAsync<UserEntity> ( accessToken )
-        const isTokenAlive = await this.redis.get ( `${this.redisPrefix}${user.id}` );
+        const isTokenAlive = await this.cacheService.get ( this.jwtConfig.tokenPrefix, user.sessionId )
         if (isTokenAlive && user) {
             return user
         } else {
@@ -32,7 +32,7 @@ export class JwtAuthService {
     }
 
     async deactivateToken ( sessionId: string ) {
-        await this.redis.del ( `${this.redisPrefix}${sessionId}` )
+        await this.cacheService.delete ( this.jwtConfig.tokenPrefix, sessionId )
     }
 
     async renewToken ( oldSessionId: string, newSessionId: string ) {
