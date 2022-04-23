@@ -11,9 +11,11 @@ export class UserEntity extends ModelEntity implements IUser {
 
     email: string
 
-    name: null | string
+    firstName: string
 
-    sessionId?: string | undefined
+    lastName: string
+
+    sessionId: string | undefined
 
     @Expose({ groups: ['user.password'] })
     password: string
