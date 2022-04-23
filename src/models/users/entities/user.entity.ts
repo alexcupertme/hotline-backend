@@ -9,14 +9,17 @@ export class User implements IUser {
     @Column()
     email: string
 
-    @Column({ nullable: true, default: null })
-    name: null | string
-
     @Column()
     password: string
 
     @Column({ nullable: true, default: null })
-    sessionId?: string
+    firstName: string
+
+    @Column({ nullable: true, default: null })
+    lastName: string
+
+    @Column({ nullable: true, default: null })
+    sessionId: string
 
     @CreateDateColumn({ name: 'created_at' })
     createdAt: Date
