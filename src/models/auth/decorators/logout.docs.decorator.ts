@@ -11,6 +11,7 @@ export function LogoutDocs() {
             status: 400,
             description: 'User doesnt exists or token expired',
         }),
+
         ApiResponse({
             status: 500,
             description: 'Server error',
