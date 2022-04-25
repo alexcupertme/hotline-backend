@@ -7,6 +7,7 @@ then
   export $(cat .env | xargs)
 fi
 
+docker image prune -f
 docker build --build-arg port="${BACKEND_PORT}" . -t vzlomed/hotlinebackend
 
 cd ..
