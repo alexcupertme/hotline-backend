@@ -1,7 +1,8 @@
+import { UserEntity } from '@models/users/serializers/user.serializer'
 import { ApiProperty } from '@nestjs/swagger'
 import { IsAlphanumeric, IsEmail, IsNotEmpty, Length, Matches } from 'class-validator'
 
-export class CreateUserDto {
+export class CreateUserRequestDto {
     @ApiProperty({
         example: 'viktor12',
         minLength: 1,
@@ -49,4 +50,9 @@ export class CreateUserDto {
     @Length(2, 30)
     @IsNotEmpty()
     lastName: string
+}
+
+export class CreateUserResponseDto extends UserEntity {
+    @ApiProperty()
+    token: string
 }

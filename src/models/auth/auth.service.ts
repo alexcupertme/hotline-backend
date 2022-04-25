@@ -1,9 +1,9 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { CreateUserDto } from '../users/dto/create.user.dto'
 import { UserEntity } from '../users/serializers/user.serializer'
 import { UsersRepository } from '../users/users.repository'
 import { IJwtAuthService } from './../../auth/jwt/jwt.interface'
+import { CreateUserRequestDto } from './dto/create.user.dto'
 
 @Injectable()
 export class AuthService {
@@ -13,7 +13,7 @@ export class AuthService {
         @Inject(IJwtAuthService) private readonly jwtAuthService: IJwtAuthService
     ) {}
 
-    async register(dto: CreateUserDto) {
+    async register(dto: CreateUserRequestDto) {
         const oldUser = await this.usersRepository.findOne({
             email: dto.email,
         })
