@@ -1,3 +1,4 @@
+cd ..
 envault --constructive --force
 cd hotline-backend
 envault --constructive --force
