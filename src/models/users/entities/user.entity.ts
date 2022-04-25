@@ -6,7 +6,7 @@ export class User implements IUser {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @Column()
+    @Column({ nullable: true, default: null })
     nickname: string
 
     @Column()
