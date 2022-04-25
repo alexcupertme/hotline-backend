@@ -11,6 +11,8 @@ export class UserEntity extends ModelEntity implements IUser {
 
     email: string
 
+    nickname: string
+
     firstName: string
 
     lastName: string
