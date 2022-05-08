@@ -14,9 +14,9 @@ import configuration from './configuration'
         ConfigModule.forRoot({
             load: [configuration],
             validationSchema: Joi.object({
-                REDIS_PORT: Joi.number(),
-                REDIS_PWD: Joi.string(),
-                REDIS_HOST: Joi.string(),
+                REDIS_PORT: Joi.number().required(),
+                REDIS_PWD: Joi.string().required(),
+                REDIS_HOST: Joi.string().required(),
             }),
         }),
     ],

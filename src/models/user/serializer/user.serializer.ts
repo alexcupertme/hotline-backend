@@ -1,37 +1,39 @@
-import { ModelEntity } from '@core/serializers/model.serializer'
+import { IModelEntity } from '@core/serializers/model.serializer'
 import { ApiProperty } from '@nestjs/swagger'
 import { Expose } from 'class-transformer'
-import { IUser } from '../interfaces/user.interface'
+import { IUserSerialized } from './../interface/user.interface'
 
 export const defaultUserGroupsForSerializing: string[] = ['user.timestamps']
 export const extendedUserGroupsForSerializing: string[] = [...defaultUserGroupsForSerializing]
 export const allUserGroupsForSerializing: string[] = [...extendedUserGroupsForSerializing, 'user.password']
 
-export class UserEntity extends ModelEntity implements IUser {
-    @ApiProperty()
-    id: string
+export class UserEntity implements IModelEntity, IUserSerialized {
+    constructor() {}
 
     @ApiProperty()
-    email: string
+    id!: string
 
     @ApiProperty()
-    nickname: string
+    email!: string
 
     @ApiProperty()
-    firstName: string
+    nickname!: string
 
     @ApiProperty()
-    lastName: string
+    firstName!: string
 
     @ApiProperty()
-    sessionId: string | undefined
+    lastName!: string
+
+    @ApiProperty()
+    sessionId!: string
 
     @Expose({ groups: ['user.password'] })
-    password: string
+    password?: string
 
     @Expose({ groups: ['user.timestamps'] })
-    createdAt: Date
+    createdAt?: Date
 
     @Expose({ groups: ['user.timestamps'] })
-    updatedAt: Date
+    updatedAt?: Date
 }

@@ -11,6 +11,6 @@ export class AppConfigService implements IAppConfigService {
     }
 
     get appName(): string {
-        return this.configService.get<string>(`app.appName`)
+        return String(this.configService.get<string>(`app.appName`))
     }
 }

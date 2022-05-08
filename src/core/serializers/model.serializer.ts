@@ -1,5 +1,7 @@
-export class ModelEntity {
-    id: string;
+export interface IModelEntity {
+    id: string
+}
 
-    [key: string]: any
+export class ModelEntity implements IModelEntity {
+    id!: string
 }

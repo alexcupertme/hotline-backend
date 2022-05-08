@@ -19,6 +19,6 @@ export class RedisCacheService implements ICacheService {
     }
 
     async get(category: string, key: string) {
-        return this.redis.get(`${category}-${key}`)
+        return (await this.redis.get(`${category}-${key}`)) ?? ''
     }
 }

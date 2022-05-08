@@ -14,11 +14,11 @@ import configuration from './configuration'
         ConfigModule.forRoot({
             load: [configuration],
             validationSchema: Joi.object({
-                POSTGRES_DB: Joi.string(),
-                POSTGRES_PORT: Joi.number(),
-                POSTGRES_PWD: Joi.string(),
-                POSTGRES_USR: Joi.string(),
-                POSTGRES_HOST: Joi.string(),
+                POSTGRES_DB: Joi.string().required(),
+                POSTGRES_PORT: Joi.number().required(),
+                POSTGRES_PWD: Joi.string().required(),
+                POSTGRES_USR: Joi.string().required(),
+                POSTGRES_HOST: Joi.string().required(),
             }),
         }),
     ],

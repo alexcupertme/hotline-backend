@@ -15,6 +15,6 @@ export class JwtConfigService implements IJwtConfigService {
     }
 
     get ttl(): number {
-        return this.configService.get<number>('jwtSecret.ttl')
+        return Number(this.configService.get<number>('jwtSecret.ttl'))
     }
 }

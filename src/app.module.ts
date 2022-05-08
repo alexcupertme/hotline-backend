@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common'
-import { UsersModule } from 'models/users/users.module'
+import { UsersModule } from '@models/user/user.module'
 import { PostgresDatabaseProviderModule } from 'providers/database/postgres/provider.module'
 import { AuthModule } from './models/auth/auth.module'
 import { RedisDatabaseProviderModule } from './providers/database/redis/provider.module'

@@ -4,8 +4,8 @@ import { EntityRepository } from 'typeorm'
 import * as uuid from 'uuid'
 import { CreateUserRequestDto } from '../auth/dto/create.user.dto'
 import { ModelRepository } from '../model.repository'
-import { User } from './entities/user.entity'
-import { allUserGroupsForSerializing, UserEntity } from './serializers/user.serializer'
+import { User } from './entity/user.entity'
+import { allUserGroupsForSerializing, UserEntity } from './serializer/user.serializer'
 
 @EntityRepository(User)
 export class UsersRepository extends ModelRepository<User, UserEntity> {
@@ -25,7 +25,13 @@ export class UsersRepository extends ModelRepository<User, UserEntity> {
         return await this.createEntity({ ...user, sessionId: uuid.v4() })
     }
 
-    async refreshSession(user: UserEntity) {
-        return await this.updateEntity(user, { sessionId: uuid.v4() })
+    async refreshSession(user: UserEntity): Promise<UserEntity> {
+        const sessionId = uuid.v4()
+        const userEntity = (await this.updateEntity(user, { sessionId }))!
+
+        return {
+            ...userEntity,
+            sessionId,
+        }
     }
 }

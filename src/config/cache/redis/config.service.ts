@@ -7,7 +7,7 @@ export class RedisConfigService implements IRedisConfigService {
     constructor(private configService: ConfigService) {}
 
     get host(): string {
-        return this.configService.get<string>(`redis.host`)
+        return String(this.configService.get<string>(`redis.host`))
     }
 
     get port(): number {
@@ -15,6 +15,6 @@ export class RedisConfigService implements IRedisConfigService {
     }
 
     get password(): string {
-        return this.configService.get<string>(`redis.password`)
+        return String(this.configService.get<string>(`redis.password`))
     }
 }

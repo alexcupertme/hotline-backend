@@ -1,12 +1,12 @@
 import { InvalidEmailOrPasswordException } from '@core/exceptions/invalid-email-or-password.exception'
 import { AbstractPassportStrategy } from '@core/strategies/passport/passport.abstract'
-import { UsersRepository } from '@models/users/users.repository'
+import { UsersRepository } from '@models/user/user.repository'
 import { Injectable } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
 import { InjectRepository } from '@nestjs/typeorm'
 import { verify } from 'argon2'
 import { Strategy } from 'passport-local'
-import { UserEntity } from './../../users/serializers/user.serializer'
+import { UserEntity } from '../../user/serializer/user.serializer'
 
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) implements AbstractPassportStrategy {

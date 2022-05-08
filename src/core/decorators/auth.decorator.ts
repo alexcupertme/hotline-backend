@@ -1,5 +1,5 @@
 import { JwtAuthGuard } from '@models/auth/guards/jwt.guard'
-import { applyDecorators, UseGuards } from '@nestjs/common'
+import { applyDecorators, Type, UseGuards } from '@nestjs/common'
 import { ApiBody, ApiHeader } from '@nestjs/swagger'
 import { LocalAuthGuard } from './../../models/auth/guards/local.guard'
 
@@ -15,7 +15,7 @@ export function JwtAuth() {
     )
 }
 
-export function LocalAuth(dto: any) {
+export function LocalAuth(dto: Type<unknown>) {
     return applyDecorators(
         UseGuards(LocalAuthGuard),
         ApiBody({

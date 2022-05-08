@@ -1,32 +1,32 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
-import { IUser } from '../interfaces/user.interface'
+import { IUser } from '../interface/user.interface'
 
 @Entity({ name: 'users' })
 export class User implements IUser {
     @PrimaryGeneratedColumn('uuid')
-    id: string
+    id!: string
 
     @Column({ nullable: true, default: null })
-    nickname: string
+    nickname!: string
 
     @Column()
-    email: string
+    email!: string
 
     @Column()
-    password: string
+    password!: string
 
     @Column({ nullable: true, default: null })
-    firstName: string
+    firstName!: string
 
     @Column({ nullable: true, default: null })
-    lastName: string
+    lastName!: string
 
     @Column({ nullable: true, default: null })
-    sessionId: string
+    sessionId!: string
 
     @CreateDateColumn({ name: 'created_at' })
-    createdAt: Date
+    createdAt!: Date
 
     @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
-    updatedAt: Date
+    updatedAt!: Date
 }
