@@ -10,8 +10,8 @@ import configuration from './configuration'
         ConfigModule.forRoot({
             load: [configuration],
             validationSchema: Joi.object({
-                APP_NAME: Joi.string(),
-                BACKEND_PORT: Joi.number(),
+                APP_NAME: Joi.string().required(),
+                BACKEND_PORT: Joi.number().required(),
             }),
         }),
     ],

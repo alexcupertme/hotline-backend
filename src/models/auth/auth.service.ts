@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { UserEntity } from '../users/serializers/user.serializer'
-import { UsersRepository } from '../users/users.repository'
+import { UserEntity } from '../user/serializer/user.serializer'
+import { UsersRepository } from '../user/user.repository'
 import { IJwtAuthService } from './../../auth/jwt/jwt.interface'
 import { CreateUserRequestDto } from './dto/create.user.dto'
 
@@ -24,13 +24,14 @@ export class AuthService {
 
     async login(user: UserEntity) {
         const fetchedUser = await this.usersRepository.refreshSession(user)
+
         return {
             token: await this.jwtAuthService.renewToken(user.sessionId, fetchedUser.sessionId),
         }
     }
 
     async logout(user: UserEntity) {
-        await this.usersRepository.updateEntity(user, { sessionId: null })
+        await this.usersRepository.updateEntity(user, { sessionId: '' })
         this.jwtAuthService.deactivateToken(user.sessionId)
     }
 }

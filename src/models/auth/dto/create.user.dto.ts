@@ -1,4 +1,4 @@
-import { UserEntity } from '@models/users/serializers/user.serializer'
+import { UserEntity } from '@models/user/serializer/user.serializer'
 import { ApiProperty } from '@nestjs/swagger'
 import { IsAlphanumeric, IsEmail, IsNotEmpty, Length, Matches } from 'class-validator'
 
@@ -11,7 +11,7 @@ export class CreateUserRequestDto {
     @IsAlphanumeric()
     @Length(1, 30)
     @IsNotEmpty()
-    nickname: string
+    nickname!: string
 
     @ApiProperty({
         example: 'example@mail.ru',
@@ -21,7 +21,7 @@ export class CreateUserRequestDto {
     @IsEmail()
     @Length(1, 30)
     @IsNotEmpty()
-    email: string
+    email!: string
 
     @ApiProperty({
         example: 'booba123-123CC',
@@ -31,7 +31,7 @@ export class CreateUserRequestDto {
     @Length(8, 30)
     @IsNotEmpty()
     @Matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&-_])[A-Za-z0-9@$!%*?&-_]{8,30}$") // prettier-ignore
-    password: string
+    password!: string
 
     @ApiProperty({
         example: 'Виктор',
@@ -40,7 +40,7 @@ export class CreateUserRequestDto {
     })
     @Length(2, 30)
     @IsNotEmpty()
-    firstName: string
+    firstName!: string
 
     @ApiProperty({
         example: 'Михайлов',
@@ -49,10 +49,10 @@ export class CreateUserRequestDto {
     })
     @Length(2, 30)
     @IsNotEmpty()
-    lastName: string
+    lastName!: string
 }
 
 export class CreateUserResponseDto extends UserEntity {
     @ApiProperty()
-    token: string
+    token!: string
 }

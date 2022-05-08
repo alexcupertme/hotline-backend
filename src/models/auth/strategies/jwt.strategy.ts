@@ -1,8 +1,8 @@
 import { IJwtConfigService } from '@config/jwt/config.interface'
 import { AbstractPassportStrategy } from '@core/strategies/passport/passport.abstract'
-import { User } from '@models/users/entities/user.entity'
-import { UserEntity } from '@models/users/serializers/user.serializer'
-import { UsersRepository } from '@models/users/users.repository'
+import { User } from '@models/user/entity/user.entity'
+import { UserEntity } from '@models/user/serializer/user.serializer'
+import { UsersRepository } from '@models/user/user.repository'
 import { Inject, Injectable } from '@nestjs/common'
 import { PassportStrategy } from '@nestjs/passport'
 import { InjectRepository } from '@nestjs/typeorm'
@@ -21,7 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) implements AbstractP
         })
     }
 
-    async validate({ sessionId }: Pick<UserEntity, 'sessionId'>): Promise<User> {
+    async validate({ sessionId }: Pick<UserEntity, 'sessionId'>): Promise<User | undefined> {
         return this.usersRepository.findOne({ sessionId: sessionId })
     }
 }

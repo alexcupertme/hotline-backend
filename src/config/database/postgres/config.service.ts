@@ -7,7 +7,7 @@ export class PostgresConfigService implements IPostgresConfigService {
     constructor(private configService: ConfigService) {}
 
     get host(): string {
-        return this.configService.get<string>(`postgres.host`)
+        return String(this.configService.get<string>(`postgres.host`))
     }
 
     get port(): number {
@@ -15,14 +15,14 @@ export class PostgresConfigService implements IPostgresConfigService {
     }
 
     get username(): string {
-        return this.configService.get<string>(`postgres.username`)
+        return String(this.configService.get<string>(`postgres.username`))
     }
 
     get password(): string {
-        return this.configService.get<string>(`postgres.password`)
+        return String(this.configService.get<string>(`postgres.password`))
     }
 
     get database(): string {
-        return this.configService.get<string>(`postgres.database`)
+        return String(this.configService.get<string>(`postgres.database`))
     }
 }

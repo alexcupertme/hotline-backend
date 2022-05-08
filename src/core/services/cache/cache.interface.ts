@@ -1,6 +1,6 @@
 export interface ICacheService {
-    add(category: string, key: string, data: string, ttl?: number): any
-    delete(category: string, key: string): any
+    add(category: string, key: string, data: string, ttl?: number): Promise<'OK'>
+    delete(category: string, key: string): Promise<number>
     get(category: string, key: string): Promise<string>
 }
 
