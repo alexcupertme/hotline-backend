@@ -18,7 +18,9 @@
         "paths": {
             "@config/*": ["config/*"],
             "@core/*": ["core/*"],
-            "@models/*": ["models/*"]
+            "@models/*": ["models/*"],
+            "@auth/*": ["auth/*"],
+            "@api/*": ["api/*"]
         }
     }
 }
