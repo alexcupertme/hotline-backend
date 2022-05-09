@@ -1,9 +1,9 @@
-import { JwtConfigService } from '@config/jwt/config.service'
-import configuration from '@config/jwt/configuration'
 import { Module } from '@nestjs/common'
 import { ConfigModule } from '@nestjs/config'
 import * as Joi from 'joi'
 import { IJwtConfigService } from './config.interface'
+import { JwtConfigService } from './config.service'
+import configuration from './configuration'
 
 @Module({
     imports: [

@@ -4,11 +4,7 @@ import * as Joi from 'joi'
 import { IPostgresConfigService } from './config.interface'
 import { PostgresConfigService } from './config.service'
 import configuration from './configuration'
-/**
- * Import and provide redis configuration related classes.
- *
- * @module
- */
+
 @Module({
     imports: [
         ConfigModule.forRoot({
