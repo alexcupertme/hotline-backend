@@ -1,7 +1,7 @@
 import { ICacheService } from '@core/services/cache/cache.interface'
 import { Inject, Injectable } from '@nestjs/common'
 import { JwtService } from '@nestjs/jwt'
-import { IJwtConfigService } from './../../config/jwt/config.interface'
+import { IJwtConfigService } from '@config/jwt/config.interface'
 import { IJwtAuthService } from './jwt.interface'
 
 @Injectable()

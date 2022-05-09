@@ -1,8 +1,9 @@
+import { IModelEntity } from '@core/serializers/model.serializer'
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { IUser } from '../interface/user.interface'
 
 @Entity({ name: 'users' })
-export class User implements IUser {
+export class User implements IUser, IModelEntity {
     @PrimaryGeneratedColumn('uuid')
     id!: string
 

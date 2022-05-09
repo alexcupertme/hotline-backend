@@ -1,8 +1,9 @@
+import { IJwtAuthService } from '@auth/jwt/jwt.interface'
 import { BadRequestException, Inject, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { UserEntity } from '../user/serializer/user.serializer'
 import { UsersRepository } from '../user/user.repository'
-import { IJwtAuthService } from './../../auth/jwt/jwt.interface'
+import { IMailVerificationService } from './../../mail/mail-verification/mail-verification.interface'
 import { CreateUserRequestDto } from './dto/create.user.dto'
 
 @Injectable()
@@ -10,7 +11,8 @@ export class AuthService {
     constructor(
         @InjectRepository(UsersRepository)
         private readonly usersRepository: UsersRepository,
-        @Inject(IJwtAuthService) private readonly jwtAuthService: IJwtAuthService
+        @Inject(IJwtAuthService) private readonly jwtAuthService: IJwtAuthService,
+        @Inject(IMailVerificationService) private readonly mailVerificationService: IMailVerificationService
     ) {}
 
     async register(dto: CreateUserRequestDto) {
@@ -19,6 +21,9 @@ export class AuthService {
         })
         if (oldUser) throw new BadRequestException('User with this email already exist')
         const newUser = await this.usersRepository.createUser(dto)
+
+        await this.mailVerificationService.sendMail(dto.email, `${dto.firstName} ${dto.lastName}`)
+
         return { ...newUser, token: await this.jwtAuthService.issueToken(newUser.sessionId) }
     }
 

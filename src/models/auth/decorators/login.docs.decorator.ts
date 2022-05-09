@@ -1,6 +1,6 @@
 import { applyDecorators } from '@nestjs/common'
 import { ApiResponse } from '@nestjs/swagger'
-import { LoginUserResponseDto } from './../dto/login.user.dto'
+import { LoginUserResponseDto } from '../dto/login.user.dto'
 
 export function LoginDocs() {
     return applyDecorators(

@@ -11,7 +11,7 @@ import configuration from './configuration'
             load: [configuration],
             validationSchema: Joi.object({
                 APP_NAME: Joi.string().required(),
-                BACKEND_PORT: Joi.number().required(),
+                APP_BACKEND_PORT: Joi.number().required(),
             }),
         }),
     ],

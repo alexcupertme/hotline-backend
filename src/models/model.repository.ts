@@ -18,7 +18,8 @@ export class ModelRepository<T, K extends ModelEntity> extends Repository<T> {
     }
 
     async createEntity(inputs: DeepPartial<T> & Omit<K, 'id'>, relations: string[] = []): Promise<K> {
-        const entity = await this.save({ ...inputs, id: '' })
+        const entity = await this.save({ ...inputs })
+        //@ts-ignore
         return (await this.get(entity.id, relations))!
     }
 
