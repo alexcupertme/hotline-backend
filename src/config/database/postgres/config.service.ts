@@ -25,4 +25,20 @@ export class PostgresConfigService implements IPostgresConfigService {
     get database(): string {
         return String(this.configService.get<string>(`postgres.database`))
     }
+
+    get cacheType(): string {
+        return String(this.configService.get<string>(`postgres.cacheType`))
+    }
+
+    get cacheDuration(): number {
+        return Number(this.configService.get<string>(`postgres.cacheDuration`))
+    }
+
+    get maxConnections(): number {
+        return Number(this.configService.get<string>(`postgres.maxConnections`))
+    }
+
+    get connectionTimeoutMs(): number {
+        return Number(this.configService.get<string>(`postgres.connectionTimeoutMs`))
+    }
 }

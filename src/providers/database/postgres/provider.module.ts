@@ -24,8 +24,8 @@ import { DatabaseType } from 'typeorm'
                 synchronize: true,
                 migrationsRun: false,
                 cache: {
-                    type: 'ioredis',
-                    duration: 60000,
+                    type: postgresConfigService.cacheType,
+                    duration: postgresConfigService.cacheDuration,
                     options: {
                         host: redisConfigService.host,
                         port: redisConfigService.port,
@@ -33,8 +33,8 @@ import { DatabaseType } from 'typeorm'
                     },
                 },
                 extra: {
-                    max: 10,
-                    connectionTimeoutMillis: 2000,
+                    max: postgresConfigService.maxConnections,
+                    connectionTimeoutMillis: postgresConfigService.connectionTimeoutMs,
                 },
                 entities: [__dirname + '/../../../**/*.entity.js'],
                 migrations: [__dirname + '/../../../database/migrations/**/*.js'],

@@ -6,4 +6,8 @@ export default registerAs('postgres', () => ({
     username: process.env.POSTGRES_USR,
     password: process.env.POSTGRES_PWD,
     database: process.env.POSTGRES_DB,
+    cacheType: 'ioredis',
+    cacheDuration: 60000,
+    maxConnections: 10,
+    connectionTimeoutMs: 2000,
 }))

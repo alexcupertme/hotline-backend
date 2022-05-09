@@ -8,6 +8,14 @@ export interface IPostgresConfigService {
     get password(): string
 
     get database(): string
+
+    get cacheType(): string
+
+    get cacheDuration(): number
+
+    get maxConnections(): number
+
+    get connectionTimeoutMs(): number
 }
 
 export const IPostgresConfigService = Symbol('IPostgresConfigService')
