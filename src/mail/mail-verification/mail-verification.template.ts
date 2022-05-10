@@ -68,7 +68,7 @@ text-decoration: underline !important;
                         start exploring the resources or showcasing your work.
                       </p>
                       <p style="font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; margin: 0; margin-bottom: 24px;">
-                        If you did not sign up to PixInvent, please ignore this email or contact us at
+                        If you did not sign up to ${appName}, please ignore this email or contact us at
                         <a href="mailto:${supportEmail}" class="hover-underline" style="font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; color: #7367f0; text-decoration: none;">${supportEmail}</a>
                       </p>
                       <a href="${callbackUrl}" style="font-family: 'Montserrat', sans-serif; mso-line-height-rule: exactly; margin-bottom: 24px; display: block; font-size: 16px; line-height: 100%; color: #7367f0; text-decoration: none;">${callbackUrl}</a>
