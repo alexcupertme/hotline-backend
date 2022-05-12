@@ -1,3 +1,4 @@
+import { Mail } from '@models/mail/entity/mail.entity'
 export interface IUserShown {
     email: string
     nickname: string
@@ -5,16 +6,9 @@ export interface IUserShown {
     lastName: string
 }
 
-export interface IUserSerialized extends IUserShown {
-    password?: string
-    sessionId?: string
-    createdAt?: Date
-    updatedAt?: Date
-}
-
 export interface IUser extends IUserShown {
     password: string
-    sessionId: string
-    createdAt: Date
-    updatedAt: Date
+    sessionID: string
+    mails: Mail[]
+    isMailVerified: boolean
 }

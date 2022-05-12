@@ -9,7 +9,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { ExtractJwt, Strategy } from 'passport-jwt'
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) implements AbstractPassportStrategy {
+export class JwtAuthStrategy extends PassportStrategy(Strategy, 'jwt-auth') implements AbstractPassportStrategy {
     constructor(
         @Inject(IJwtConfigService) private readonly jwtConfigService: IJwtConfigService,
         @InjectRepository(UsersRepository) private readonly usersRepository: UsersRepository
@@ -17,11 +17,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) implements AbstractP
         super({
             jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
             ignoreExpiration: false,
-            secretOrKey: jwtConfigService.secret,
+            secretOrKey: jwtConfigService.authTokenSecret,
         })
     }
 
-    async validate({ sessionId }: Pick<UserEntity, 'sessionId'>): Promise<User | undefined> {
-        return this.usersRepository.findOne({ sessionId: sessionId })
+    async validate({ sessionID }: Pick<UserEntity, 'sessionID'>): Promise<User | undefined> {
+        return this.usersRepository.findOne({ sessionID })
     }
 }

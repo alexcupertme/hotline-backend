@@ -1,39 +1,35 @@
-import { IModelEntity } from '@core/serializers/model.serializer'
+import { ModelEntity } from '@core/serializers/model.serializer'
+import { Mail } from '@models/mail/entity/mail.entity'
 import { ApiProperty } from '@nestjs/swagger'
-import { Expose } from 'class-transformer'
-import { IUserSerialized } from './../interface/user.interface'
+import { Exclude } from 'class-transformer'
+import { IUser } from './../interface/user.interface'
 
-export const defaultUserGroupsForSerializing: string[] = ['user.timestamps']
-export const extendedUserGroupsForSerializing: string[] = [...defaultUserGroupsForSerializing]
-export const allUserGroupsForSerializing: string[] = [...extendedUserGroupsForSerializing, 'user.password']
-
-export class UserEntity implements IModelEntity, IUserSerialized {
-    constructor() {}
+export class UserEntity extends ModelEntity implements IUser {
+    constructor() {
+        super()
+    }
 
     @ApiProperty()
-    id!: string
+    email: string
 
     @ApiProperty()
-    email!: string
+    nickname: string
 
     @ApiProperty()
-    nickname!: string
+    firstName: string
 
     @ApiProperty()
-    firstName!: string
+    lastName: string
 
-    @ApiProperty()
-    lastName!: string
+    @Exclude({ toPlainOnly: true })
+    sessionID: string
 
-    @ApiProperty()
-    sessionId!: string
+    @Exclude({ toPlainOnly: true })
+    mails: Mail[]
 
-    @Expose({ groups: ['user.password'] })
-    password?: string
+    @Exclude({ toPlainOnly: true })
+    isMailVerified: boolean
 
-    @Expose({ groups: ['user.timestamps'] })
-    createdAt?: Date
-
-    @Expose({ groups: ['user.timestamps'] })
-    updatedAt?: Date
+    @Exclude({ toPlainOnly: true })
+    password: string
 }

@@ -1,33 +1,40 @@
 import { IModelEntity } from '@core/serializers/model.serializer'
+import { Mail } from '@models/mail/entity/mail.entity'
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { IUser } from '../interface/user.interface'
 
 @Entity({ name: 'users' })
 export class User implements IUser, IModelEntity {
     @PrimaryGeneratedColumn('uuid')
-    id!: string
-
-    @Column({ nullable: true, default: null })
-    nickname!: string
+    id: string
 
     @Column()
-    email!: string
+    nickname: string
+
+    @Column({ unique: true })
+    email: string
 
     @Column()
-    password!: string
+    password: string
+
+    @Column()
+    firstName: string
+
+    @Column()
+    lastName: string
 
     @Column({ nullable: true, default: null })
-    firstName!: string
+    sessionID: string
 
     @Column({ nullable: true, default: null })
-    lastName!: string
+    mails: Mail[]
 
-    @Column({ nullable: true, default: null })
-    sessionId!: string
+    @Column({ default: false })
+    isMailVerified: boolean
 
     @CreateDateColumn({ name: 'created_at' })
-    createdAt!: Date
+    createdAt: Date
 
     @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
-    updatedAt!: Date
+    updatedAt: Date
 }

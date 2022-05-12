@@ -1,13 +1,13 @@
 import { IJwtMailService } from '@auth/jwt/mail/jwt.mail.interface'
+import { MailsRepository } from '@models/mail/mail.repository'
 import { Inject } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { IMailCommonConfigService } from './../../config/mail/common/config.interface'
 import { MailProducer } from './../../job/mail/producer.service'
-import { MailsRepository } from './../../models/mail/mail.repository'
-import { IMailVerificationService, SendMailResponse } from './mail-verification.interface'
-import { MailVerificationTemplate } from './mail-verification.template'
+import { IResetPasswordMailingService } from './reset-password.interface'
+import { ResetPasswordTemplate } from './reset-password.template'
 
-export class MailVerificationService implements IMailVerificationService {
+export class ResetPasswordMailingService implements IResetPasswordMailingService {
     constructor(
         @InjectRepository(MailsRepository)
         private readonly mailsRepository: MailsRepository,
@@ -16,11 +16,11 @@ export class MailVerificationService implements IMailVerificationService {
         private mailProducer: MailProducer
     ) {}
 
-    async sendMail(email: string, name: string): Promise<SendMailResponse> {
+    async sendMail(email: string, userID: string, userIP: string, name: string): Promise<boolean> {
         await this.mailsRepository.update(
             {
                 isActionCompleted: false,
-                actionName: this.mailCommonConfigService.mailVerificationActionName,
+                actionName: this.mailCommonConfigService.resetPasswordActionName,
                 email,
             },
             { isActionTerminated: true }
@@ -28,16 +28,19 @@ export class MailVerificationService implements IMailVerificationService {
 
         const mail = await this.mailsRepository.createEntity({
             email,
-            actionName: this.mailCommonConfigService.mailVerificationActionName,
+            actionName: this.mailCommonConfigService.resetPasswordActionName,
         })
 
         const token = await this.jwtMailService.issueToken(mail.id, mail.actionName)
 
-        const content = MailVerificationTemplate(
+        const content = ResetPasswordTemplate(
             name,
+            email,
+            userID,
+            userIP,
             this.mailCommonConfigService.supportEmail,
-            `${this.mailCommonConfigService.supportUrl}?token=${token}`,
-            this.mailCommonConfigService.mailVerificationCallbackUrl,
+            this.mailCommonConfigService.supportUrl,
+            `${this.mailCommonConfigService.resetPasswordCallbackUrl}?token=${token}`,
             this.mailCommonConfigService.appName,
             this.mailCommonConfigService.privacyPolicyUrl,
             this.mailCommonConfigService.termsOfUseUrl
@@ -57,22 +60,16 @@ export class MailVerificationService implements IMailVerificationService {
                 },
                 html: Buffer.from(content).toString('base64'),
                 text: content,
-                subject: 'Mail verification',
+                subject: 'Reset password',
             },
         })
-
-        return {
-            success: true,
-            mailID: mail.id,
-            token,
-        }
+        return true
     }
 
-    async finishVerification(mailID: string) {
+    async finishPasswordReset(mailID: string): Promise<void> {
         await this.mailsRepository.update({ id: mailID }, { isActionCompleted: true })
 
         this.jwtMailService.destroyToken(mailID)
     }
 }
-
 //TODO: Refactor this shit

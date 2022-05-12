@@ -1,5 +1,5 @@
-import { ValidationPipe, VersioningType } from '@nestjs/common'
-import { NestFactory } from '@nestjs/core'
+import { ClassSerializerInterceptor, ValidationPipe, VersioningType } from '@nestjs/common'
+import { NestFactory, Reflector } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
@@ -25,7 +25,8 @@ async function bootstrap() {
     SwaggerModule.setup('api', app, document, {
         customCss: readFileSync(resolve(__dirname, `../public/swagger/css/theme-flattop.css`), 'utf-8'),
     })
-    app.useGlobalPipes(new ValidationPipe())
+    app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)))
+    app.useGlobalPipes(new ValidationPipe({ transform: true }))
     await app.listen(5000)
 }
 bootstrap()

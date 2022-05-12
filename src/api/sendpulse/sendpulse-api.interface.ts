@@ -10,7 +10,7 @@ export const ISendpulseAPIService = Symbol('ISendpulseAPIService')
  * @property {number} SenderEmailAddressMissing             - 10 Отсутствует e-mail адрес отправителя
  * @property {number} RecipientsAddressesMissing            - 11 Не указаны получатели
  * @property {number} EmptyEmailMessageContentField         - 13 Отсутствует контент email сообщения
- * @property {number} EmailAddressWithIdDoesntExists        - 14 Email адрес с заданным значением ID не найден
+ * @property {number} EmailAddressWithIDDoesntExists        - 14 Email адрес с заданным значением ID не найден
  * @property {number} EmailAddressDoesntExists              - 17 Email адрес не найден
  * @property {number} EmailAddressAlreadyExists             - 19 Такой email адрес уже существует
  * @property {number} NotAllowedUsingFreeEmailServices      - 20 Пожалуйста, не используйте бесплатные почтовые сервисы
@@ -30,7 +30,7 @@ export const ISendpulseAPIService = Symbol('ISendpulseAPIService')
  * @property {number} TimeoutBetweenMailingListSend         - 711 Вам следует подождать 15 минут перед повторной попыткой отправки на данную адресную книгу
  * @property {number} EmptySubjectField                     - 720 Не указана тема письма
  * @property {number} SMTPEmptyEmailMessageContentField     - 721 Отсутствует контент email сообщения
- * @property {number} EmptyMailingListId                    - 722 Не указано ID адресной книги
+ * @property {number} EmptyMailingListID                    - 722 Не указано ID адресной книги
  * @property {number} APICampaignsLimitExceeded             - 791 Лимит API-кампаний (5 в час) превышен
  * @property {number} InvalidDateFormat                     - 799 Неправильный формат даты. Должен быть в формате Y-m-d H:i:s и не может быть меньше текущей даты
  * @property {number} InvalidOperation                      - 800 Недопустимое действие
@@ -53,7 +53,7 @@ export enum SendpulseApiErrorCodes {
 
     EmptyEmailMessageContentField = 13,
 
-    EmailAddressWithIdDoesntExists = 14,
+    EmailAddressWithIDDoesntExists = 14,
 
     EmailAddressDoesntExists = 17,
 
@@ -93,7 +93,7 @@ export enum SendpulseApiErrorCodes {
 
     SMTPEmptyEmailMessageContentField = 721,
 
-    EmptyMailingListId = 722,
+    EmptyMailingListID = 722,
 
     APICampaignsLimitExceeded = 791,
 

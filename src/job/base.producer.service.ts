@@ -9,8 +9,8 @@ export abstract class BaseProducer<T> implements IProducer<T> {
     protected abstract queue: Queue<T & ITaskData>
 
     async createTask(data: T): Promise<Job<T & ITaskData>> {
-        const jobId = uuid()
-        return await this.queue.add({ createdAt: new Date(), id: jobId, ...data }, { jobId })
+        const jobID = uuid()
+        return await this.queue.add({ createdAt: new Date(), id: jobID, ...data }, { jobId: jobID })
     }
 
     async findTask(id: string): Promise<Job<T & ITaskData> | null> {

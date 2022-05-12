@@ -41,7 +41,7 @@ export class SendpulseAPIService implements ISendpulseAPIService {
         return new Promise((resolve) => {
             this.httpService
                 .post<OAuthSendpulseResponse>(url, {
-                    client_id: this.sendpulseConfigService.appUserId,
+                    client_id: this.sendpulseConfigService.appUserID,
                     client_secret: this.sendpulseConfigService.apiSecret,
                     grant_type: this.sendpulseConfigService.oauthGrantType,
                 } as OAuthSendpulseRequest)
