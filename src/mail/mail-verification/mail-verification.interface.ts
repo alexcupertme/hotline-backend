@@ -1,3 +1,5 @@
+import { MailEntity } from '@models/mail/serializers/mail.serializer'
+import { UserEntity } from '@models/user/serializer/user.serializer'
 export type SendMailResponse = {
     success: boolean
     mailID: string
@@ -5,8 +7,8 @@ export type SendMailResponse = {
 }
 
 export interface IMailVerificationService {
-    sendMail(email: string, name: string): Promise<SendMailResponse>
-    finishVerification(mailID: string): Promise<void>
+    sendMail(email: string, name: string, user: UserEntity): Promise<SendMailResponse>
+    finishVerification(mail: MailEntity): Promise<void>
 }
 
 export const IMailVerificationService = Symbol('IMailVerificationService')

@@ -1,6 +1,6 @@
 import { IModelEntity } from '@core/serializers/model.serializer'
 import { Mail } from '@models/mail/entity/mail.entity'
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { IUser } from '../interface/user.interface'
 
 @Entity({ name: 'users' })
@@ -26,7 +26,7 @@ export class User implements IUser, IModelEntity {
     @Column({ nullable: true, default: null })
     sessionID: string
 
-    @Column({ nullable: true, default: null })
+    @OneToMany(() => Mail, (mail) => mail.user)
     mails: Mail[]
 
     @Column({ default: false })

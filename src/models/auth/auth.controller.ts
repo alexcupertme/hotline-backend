@@ -1,5 +1,6 @@
-import { JwtAuth, LocalAuth } from '@core/decorators/auth.decorator'
-import { Mail } from '@core/decorators/mail.decorator'
+import { JwtAuth, JwtMail, LocalAuth } from '@core/decorators/auth.decorator'
+import { Mail } from '@core/decorators/mail.mail.decorator'
+import { MailUser } from '@core/decorators/mail.user.decorator'
 import { User } from '@core/decorators/user.decorator'
 import { defaultUserGroupsForSerializing } from '@core/serializers/model.serializer'
 import { MailEntity } from '@models/mail/serializers/mail.serializer'
@@ -43,28 +44,28 @@ export class AuthController {
         return await this.authService.logout(user)
     }
 
+    @JwtMail()
     @Get('/verify-mail')
     async verifyMail(
-        @User() user: UserEntity,
+        @MailUser() user: UserEntity,
         @Mail() mail: MailEntity,
         @Query() _: VerifyMailQueryDto
     ): Promise<VerifyMailResponseDto> {
         return await this.authService.verifyMail(user, mail)
     }
 
+    @JwtAuth()
     @Post('/request-reset-password')
-    async requestResetPassword(
-        @Ip() ip: string,
-        @User() user: UserEntity,
-        @Query() _: VerifyMailQueryDto
-    ): Promise<RequestResetPasswordResponseDto> {
+    async requestResetPassword(@Ip() ip: string, @User() user: UserEntity): Promise<RequestResetPasswordResponseDto> {
         return await this.authService.requestResetPassword(user, ip)
     }
 
+    @JwtMail()
     @Post('/reset-password')
     async resetPassword(
+        @Query() _: VerifyMailQueryDto,
         @Body() dto: ResetPasswordRequestDto,
-        @User() user: UserEntity,
+        @MailUser() user: UserEntity,
         @Mail() mail: MailEntity
     ): Promise<ResetPasswordResponseDto> {
         return await this.authService.resetPassword(dto, user, mail)

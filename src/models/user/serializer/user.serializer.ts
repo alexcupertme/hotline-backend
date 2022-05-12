@@ -21,15 +21,15 @@ export class UserEntity extends ModelEntity implements IUser {
     @ApiProperty()
     lastName: string
 
-    @Exclude({ toPlainOnly: true })
+    @Exclude({ toClassOnly: true })
     sessionID: string
 
-    @Exclude({ toPlainOnly: true })
+    @Exclude({ toClassOnly: true })
     mails: Mail[]
 
-    @Exclude({ toPlainOnly: true })
+    @Exclude({ toClassOnly: true })
     isMailVerified: boolean
 
-    @Exclude({ toPlainOnly: true })
+    @Exclude({ toClassOnly: true })
     password: string
 }

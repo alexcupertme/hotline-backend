@@ -1,5 +1,6 @@
 import { JwtAuthModule } from '@auth/jwt/auth/jwt.auth.module'
 import { JwtConfigModule } from '@config/jwt/config.module'
+import { MailsRepository } from '@models/mail/mail.repository'
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { UsersRepository } from '../user/user.repository'
@@ -14,6 +15,7 @@ import { LocalStrategy } from './strategies/local.strategy'
 @Module({
     imports: [
         TypeOrmModule.forFeature([UsersRepository]),
+        TypeOrmModule.forFeature([MailsRepository]),
         JwtAuthModule,
         JwtConfigModule,
         MailVerificationModule,

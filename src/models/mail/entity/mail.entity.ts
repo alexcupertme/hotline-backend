@@ -1,5 +1,13 @@
 import { IModelEntity } from '@core/serializers/model.serializer'
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
+import {
+    Column,
+    CreateDateColumn,
+    Entity,
+    JoinTable,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+    UpdateDateColumn,
+} from 'typeorm'
 import { User } from './../../user/entity/user.entity'
 import { IMail } from './../interface/mail.interface'
 
@@ -26,6 +34,7 @@ export class Mail implements IMail, IModelEntity {
     @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
     updatedAt: Date
 
-    @ManyToOne(() => User, (user) => user.mails)
+    @ManyToOne(() => User, (user) => user.mails, { eager: true })
+    @JoinTable()
     user: User
 }

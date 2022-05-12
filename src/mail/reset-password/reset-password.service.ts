@@ -1,5 +1,7 @@
 import { IJwtMailService } from '@auth/jwt/mail/jwt.mail.interface'
 import { MailsRepository } from '@models/mail/mail.repository'
+import { MailEntity } from '@models/mail/serializers/mail.serializer'
+import { UserEntity } from '@models/user/serializer/user.serializer'
 import { Inject } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { IMailCommonConfigService } from './../../config/mail/common/config.interface'
@@ -16,7 +18,7 @@ export class ResetPasswordMailingService implements IResetPasswordMailingService
         private mailProducer: MailProducer
     ) {}
 
-    async sendMail(email: string, userID: string, userIP: string, name: string): Promise<boolean> {
+    async sendMail(email: string, user: UserEntity, userIP: string, name: string): Promise<boolean> {
         await this.mailsRepository.update(
             {
                 isActionCompleted: false,
@@ -29,6 +31,7 @@ export class ResetPasswordMailingService implements IResetPasswordMailingService
         const mail = await this.mailsRepository.createEntity({
             email,
             actionName: this.mailCommonConfigService.resetPasswordActionName,
+            user,
         })
 
         const token = await this.jwtMailService.issueToken(mail.id, mail.actionName)
@@ -36,7 +39,7 @@ export class ResetPasswordMailingService implements IResetPasswordMailingService
         const content = ResetPasswordTemplate(
             name,
             email,
-            userID,
+            user.id,
             userIP,
             this.mailCommonConfigService.supportEmail,
             this.mailCommonConfigService.supportUrl,
@@ -66,10 +69,10 @@ export class ResetPasswordMailingService implements IResetPasswordMailingService
         return true
     }
 
-    async finishPasswordReset(mailID: string): Promise<void> {
-        await this.mailsRepository.update({ id: mailID }, { isActionCompleted: true })
+    async finishPasswordReset(mail: MailEntity): Promise<void> {
+        await this.mailsRepository.updateEntity(mail, { isActionCompleted: true })
 
-        this.jwtMailService.destroyToken(mailID)
+        this.jwtMailService.destroyToken(mail.id)
     }
 }
 //TODO: Refactor this shit

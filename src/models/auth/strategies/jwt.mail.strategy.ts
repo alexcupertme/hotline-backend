@@ -29,18 +29,16 @@ export class JwtMailStrategy extends PassportStrategy(Strategy, 'jwt-mail') impl
     }: {
         mailID: string
         actionName: string
-    }): Promise<{ user: User; mail: Mail }> {
+    }): Promise<{ mail: Mail; user: User }> {
         const mail = await this.mailsRepository.findOne({
             id: mailID,
             actionName,
             isActionCompleted: false,
             isActionTerminated: false,
         })
+
         if (!mail) throw new UnauthorizedException('Invalid token!')
 
-        return {
-            user: mail.user,
-            mail: mail,
-        }
+        return { mail, user: mail.user }
     }
 }

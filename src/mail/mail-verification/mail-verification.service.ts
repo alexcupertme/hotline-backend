@@ -1,4 +1,6 @@
 import { IJwtMailService } from '@auth/jwt/mail/jwt.mail.interface'
+import { MailEntity } from '@models/mail/serializers/mail.serializer'
+import { UserEntity } from '@models/user/serializer/user.serializer'
 import { Inject } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { IMailCommonConfigService } from './../../config/mail/common/config.interface'
@@ -16,7 +18,7 @@ export class MailVerificationService implements IMailVerificationService {
         private mailProducer: MailProducer
     ) {}
 
-    async sendMail(email: string, name: string): Promise<SendMailResponse> {
+    async sendMail(email: string, name: string, user: UserEntity): Promise<SendMailResponse> {
         await this.mailsRepository.update(
             {
                 isActionCompleted: false,
@@ -29,6 +31,7 @@ export class MailVerificationService implements IMailVerificationService {
         const mail = await this.mailsRepository.createEntity({
             email,
             actionName: this.mailCommonConfigService.mailVerificationActionName,
+            user: user,
         })
 
         const token = await this.jwtMailService.issueToken(mail.id, mail.actionName)
@@ -36,8 +39,8 @@ export class MailVerificationService implements IMailVerificationService {
         const content = MailVerificationTemplate(
             name,
             this.mailCommonConfigService.supportEmail,
-            `${this.mailCommonConfigService.supportUrl}?token=${token}`,
-            this.mailCommonConfigService.mailVerificationCallbackUrl,
+            this.mailCommonConfigService.supportUrl,
+            `${this.mailCommonConfigService.mailVerificationCallbackUrl}?token=${token}`,
             this.mailCommonConfigService.appName,
             this.mailCommonConfigService.privacyPolicyUrl,
             this.mailCommonConfigService.termsOfUseUrl
@@ -68,10 +71,10 @@ export class MailVerificationService implements IMailVerificationService {
         }
     }
 
-    async finishVerification(mailID: string) {
-        await this.mailsRepository.update({ id: mailID }, { isActionCompleted: true })
+    async finishVerification(mail: MailEntity) {
+        await this.mailsRepository.updateEntity(mail, { isActionCompleted: true })
 
-        this.jwtMailService.destroyToken(mailID)
+        this.jwtMailService.destroyToken(mail.id)
     }
 }
 

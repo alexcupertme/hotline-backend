@@ -16,8 +16,8 @@ export class ModelEntity implements IModelEntity {
     id: string
 
     @Expose({ groups: ['user.timestamps'], toClassOnly: true })
-    createdAt: Date | undefined
+    createdAt: Date
 
     @Expose({ groups: ['user.timestamps'], toClassOnly: true })
-    updatedAt: Date | undefined
+    updatedAt: Date
 }

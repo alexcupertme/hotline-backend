@@ -26,9 +26,9 @@ export class AuthService {
         if (oldUser) throw new BadRequestException('User with this email already exists')
         const newUser = await this.usersRepository.createUser(dto)
 
-        const mailData = await this.mailVerificationService.sendMail(dto.email, `${dto.firstName} ${dto.lastName}`)
+        await this.mailVerificationService.sendMail(dto.email, `${dto.firstName} ${dto.lastName}`, newUser)
 
-        return { ...newUser, token: mailData.token }
+        return newUser
     }
 
     async login(user: UserEntity) {
@@ -48,20 +48,20 @@ export class AuthService {
         if (user.isMailVerified) throw new BadRequestException('Your account already verified! Please, re-login')
 
         await this.usersRepository.updateEntity(user, { isMailVerified: true })
-        await this.mailVerificationService.finishVerification(mail.id)
+        await this.mailVerificationService.finishVerification(mail)
 
         return { success: true }
     }
 
     async requestResetPassword(user: UserEntity, ip: string) {
-        await this.resetPasswordMailingService.sendMail(user.email, `${user.firstName} ${user.lastName}`, user.id, ip)
+        await this.resetPasswordMailingService.sendMail(user.email, user, ip, `${user.firstName} ${user.lastName}`)
         return { success: true }
     }
 
     async resetPassword(dto: ResetPasswordRequestDto, user: UserEntity, mail: MailEntity) {
         await this.usersRepository.changePassword(user, dto.password)
 
-        await this.resetPasswordMailingService.finishPasswordReset(mail.id)
+        await this.resetPasswordMailingService.finishPasswordReset(mail)
 
         return { success: true }
     }
