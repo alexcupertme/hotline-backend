@@ -10,7 +10,8 @@ import configuration from './configuration'
         ConfigModule.forRoot({
             load: [configuration],
             validationSchema: Joi.object({
-                JWT_SECRET: Joi.string(),
+                AUTH_JWT_SECRET: Joi.string(),
+                MAIL_JWT_SECRET: Joi.string(),
             }),
         }),
     ],

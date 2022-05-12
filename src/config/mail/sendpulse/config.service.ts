@@ -18,8 +18,8 @@ export class SendpulseConfigService implements ISendpulseConfigService {
         return String(this.configService.get<string>(`sendpulse.tokenPrefix`))
     }
 
-    get appUserId(): string {
-        return String(this.configService.get<string>(`sendpulse.appUserId`))
+    get appUserID(): string {
+        return String(this.configService.get<string>(`sendpulse.appUserID`))
     }
 
     get apiSecret(): string {

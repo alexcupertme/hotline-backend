@@ -6,15 +6,27 @@ import { IJwtConfigService } from './config.interface'
 export class JwtConfigService implements IJwtConfigService {
     constructor(private readonly configService: ConfigService) {}
 
-    get secret(): string {
-        return String(this.configService.get<string>(`jwt.secret`))
+    get authTokenSecret(): string {
+        return String(this.configService.get<string>(`jwt.authTokenSecret`))
     }
 
-    get tokenPrefix(): string {
-        return String(this.configService.get<string>(`jwt.tokenPrefix`))
+    get authTokenPrefix(): string {
+        return String(this.configService.get<string>(`jwt.authTokenPrefix`))
     }
 
-    get ttl(): number {
-        return Number(this.configService.get<number>('jwt.ttl'))
+    get authTokenTTL(): number {
+        return Number(this.configService.get<number>('jwt.authTokenTTL'))
+    }
+
+    get mailTokenSecret(): string {
+        return String(this.configService.get<string>(`jwt.mailTokenSecret`))
+    }
+
+    get mailTokenPrefix(): string {
+        return String(this.configService.get<string>(`jwt.mailTokenPrefix`))
+    }
+
+    get mailTokenTTL(): number {
+        return Number(this.configService.get<number>('jwt.mailTokenTTL'))
     }
 }

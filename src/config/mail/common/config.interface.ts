@@ -11,7 +11,13 @@ export interface IMailCommonConfigService {
 
     get termsOfUseUrl(): string
 
-    get callbackUrl(): string
+    get mailVerificationCallbackUrl(): string
+
+    get mailVerificationActionName(): string
+
+    get resetPasswordCallbackUrl(): string
+
+    get resetPasswordActionName(): string
 }
 
 export const IMailCommonConfigService = Symbol('IMailCommonConfigService')

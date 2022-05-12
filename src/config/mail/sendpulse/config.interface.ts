@@ -1,5 +1,5 @@
 export interface ISendpulseConfigService {
-    get appUserId(): string
+    get appUserID(): string
 
     get apiSecret(): string
 

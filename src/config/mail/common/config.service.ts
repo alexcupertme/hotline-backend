@@ -30,7 +30,19 @@ export class MailCommonConfigService implements IMailCommonConfigService {
         return String(this.configService.get<string>(`mail-common.termsOfUseUrl`))
     }
 
-    get callbackUrl(): string {
-        return String(this.configService.get<string>(`mail-common.callbackUrl`))
+    get mailVerificationCallbackUrl(): string {
+        return String(this.configService.get<string>(`mail-common.mailVerificationCallbackUrl`))
+    }
+
+    get mailVerificationActionName(): string {
+        return String(this.configService.get<string>(`mail-common.mailVerificationActionName`))
+    }
+
+    get resetPasswordCallbackUrl(): string {
+        return String(this.configService.get<string>(`mail-common.resetPasswordCallbackUrl`))
+    }
+
+    get resetPasswordActionName(): string {
+        return String(this.configService.get<string>(`mail-common.resetPasswordActionName`))
     }
 }

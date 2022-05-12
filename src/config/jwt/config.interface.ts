@@ -1,7 +1,11 @@
 export interface IJwtConfigService {
-    get secret(): string
-    get tokenPrefix(): string
-    get ttl(): number
+    get authTokenTTL(): number
+    get authTokenPrefix(): string
+    get authTokenSecret(): string
+
+    get mailTokenTTL(): number
+    get mailTokenPrefix(): string
+    get mailTokenSecret(): string
 }
 
 export const IJwtConfigService = Symbol('IJwtConfigService')
