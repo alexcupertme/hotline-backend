@@ -37,7 +37,7 @@ export class JwtMailStrategy extends PassportStrategy(Strategy, 'jwt-mail') impl
             isActionTerminated: false,
         })
 
-        if (!mail) throw new UnauthorizedException('Invalid token!')
+        if (!mail) throw new UnauthorizedException()
 
         return { mail, user: mail.user }
     }
