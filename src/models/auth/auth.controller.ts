@@ -4,7 +4,7 @@ import { MailUser } from '@core/decorators/mail.user.decorator'
 import { User } from '@core/decorators/user.decorator'
 import { defaultUserGroupsForSerializing } from '@core/serializers/model.serializer'
 import { MailEntity } from '@models/mail/serializers/mail.serializer'
-import { Body, Controller, Get, Ip, Post, Query, SerializeOptions } from '@nestjs/common'
+import { Body, Controller, Get, Ip, Post, SerializeOptions } from '@nestjs/common'
 import { UserEntity } from '../user/serializer/user.serializer'
 import { AuthService } from './auth.service'
 import { LoginDocs } from './decorators/login.docs.decorator'
@@ -14,7 +14,7 @@ import { LoginUserRequestDto } from './dto/login.auth.dto'
 import { RegisterRequestDto } from './dto/register.auth.dto'
 import { RequestResetPasswordResponseDto } from './dto/request-reset-password.dto'
 import { ResetPasswordRequestDto, ResetPasswordResponseDto } from './dto/reset-password.auth.dto'
-import { VerifyMailQueryDto, VerifyMailResponseDto } from './dto/verify-mail.auth.dto'
+import { VerifyMailResponseDto } from './dto/verify-mail.auth.dto'
 
 @SerializeOptions({ groups: defaultUserGroupsForSerializing })
 @Controller({
@@ -46,16 +46,12 @@ export class AuthController {
 
     @JwtMail()
     @Get('/verify-mail')
-    async verifyMail(
-        @MailUser() user: UserEntity,
-        @Mail() mail: MailEntity,
-        @Query() _: VerifyMailQueryDto
-    ): Promise<VerifyMailResponseDto> {
+    async verifyMail(@MailUser() user: UserEntity, @Mail() mail: MailEntity): Promise<VerifyMailResponseDto> {
         return await this.authService.verifyMail(user, mail)
     }
 
     @JwtAuth()
-    @Post('/request-reset-password')
+    @Get('/request-reset-password')
     async requestResetPassword(@Ip() ip: string, @User() user: UserEntity): Promise<RequestResetPasswordResponseDto> {
         return await this.authService.requestResetPassword(user, ip)
     }
@@ -63,7 +59,6 @@ export class AuthController {
     @JwtMail()
     @Post('/reset-password')
     async resetPassword(
-        @Query() _: VerifyMailQueryDto,
         @Body() dto: ResetPasswordRequestDto,
         @MailUser() user: UserEntity,
         @Mail() mail: MailEntity

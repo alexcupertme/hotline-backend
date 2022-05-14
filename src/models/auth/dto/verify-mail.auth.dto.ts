@@ -3,8 +3,8 @@ import { IsNotEmpty } from 'class-validator'
 
 export class VerifyMailQueryDto {
     @ApiProperty({
-        example: '<long string>',
-        type: 'JWT Token',
+        example: '<token>',
+        type: 'string',
         required: true,
     })
     @IsNotEmpty()
