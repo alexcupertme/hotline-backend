@@ -2,6 +2,8 @@ import { ClassSerializerInterceptor, ValidationPipe, VersioningType } from '@nes
 import { NestFactory, Reflector } from '@nestjs/core'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import * as compression from 'compression'
+import * as cookieParser from 'cookie-parser'
+import * as csurf from 'csurf'
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
 import { AppModule } from './app.module'
@@ -26,7 +28,9 @@ async function bootstrap() {
     SwaggerModule.setup('api', app, document, {
         customCss: readFileSync(resolve(__dirname, `../public/swagger/css/theme-flattop.css`), 'utf-8'),
     })
+    app.use(cookieParser())
     app.use(compression())
+    app.use(csurf({ cookie: true }))
     app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)))
     app.useGlobalPipes(new ValidationPipe({ transform: true }))
     await app.listen(5000)
