@@ -7,6 +7,7 @@ import { Module } from '@nestjs/common'
     imports: [
         RedisModule.forRootAsync({
             imports: [RedisConfigModule],
+            inject: [IRedisConfigService],
             useFactory: async function (redisConfigService: IRedisConfigService) {
                 return {
                     config: {
@@ -16,7 +17,6 @@ import { Module } from '@nestjs/common'
                     },
                 }
             },
-            inject: [IRedisConfigService],
         }),
     ],
 })

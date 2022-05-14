@@ -9,6 +9,7 @@ import { Module } from '@nestjs/common'
     imports: [
         BullModule.forRootAsync({
             imports: [BullConfigModule, RedisConfigModule],
+            inject: [IRedisConfigService, IBullConfigService],
             useFactory: async function (
                 redisConfigService: IRedisConfigService,
                 bullConfigService: IBullConfigService
@@ -22,7 +23,6 @@ import { Module } from '@nestjs/common'
                     },
                 }
             },
-            inject: [IRedisConfigService, IBullConfigService],
         }),
     ],
 })

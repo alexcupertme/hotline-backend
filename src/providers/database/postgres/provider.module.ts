@@ -10,6 +10,7 @@ import { DatabaseType } from 'typeorm'
     imports: [
         TypeOrmModule.forRootAsync({
             imports: [PostgresConfigModule, RedisConfigModule],
+            inject: [IPostgresConfigService, IRedisConfigService],
             useFactory: async (
                 postgresConfigService: IPostgresConfigService,
                 redisConfigService: IRedisConfigService
@@ -39,7 +40,6 @@ import { DatabaseType } from 'typeorm'
                 entities: [__dirname + '/../../../**/*.entity.js'],
                 migrations: [__dirname + '/../../../database/migrations/**/*.js'],
             }),
-            inject: [IPostgresConfigService, IRedisConfigService],
         } as TypeOrmModuleAsyncOptions),
     ],
 })
