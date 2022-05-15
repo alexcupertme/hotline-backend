@@ -26,7 +26,7 @@ export class User implements IUser, IModelEntity {
     @Column({ nullable: true, default: null })
     sessionID: string
 
-    @OneToMany(() => Mail, (mail) => mail.user)
+    @OneToMany(() => Mail, (mail) => mail.user, { onDelete: 'CASCADE' })
     mails: Mail[]
 
     @Column({ default: false })

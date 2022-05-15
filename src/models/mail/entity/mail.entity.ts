@@ -34,7 +34,7 @@ export class Mail implements IMail, IModelEntity {
     @UpdateDateColumn({ name: 'updated_at', type: 'timestamp' })
     updatedAt: Date
 
-    @ManyToOne(() => User, (user) => user.mails, { eager: true })
+    @ManyToOne(() => User, (user) => user.mails, { eager: true, onDelete: 'CASCADE' })
     @JoinTable()
     user: User
 }
