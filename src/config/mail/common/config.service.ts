@@ -6,6 +6,22 @@ import { IMailCommonConfigService } from './config.interface'
 export class MailCommonConfigService implements IMailCommonConfigService {
     constructor(private configService: ConfigService) {}
 
+    get smtpPassword(): string {
+        return String(this.configService.get<string>(`mail-common.smtpPassword`))
+    }
+
+    get smtpHost(): string {
+        return String(this.configService.get<string>(`mail-common.smtpHost`))
+    }
+
+    get smtpUser(): string {
+        return String(this.configService.get<string>(`mail-common.smtpUser`))
+    }
+
+    get smtpPort(): number {
+        return Number(this.configService.get<number>(`mail-common.smtpPort`))
+    }
+
     get appName(): string {
         return String(this.configService.get<string>(`mail-common.appName`))
     }
@@ -14,20 +30,8 @@ export class MailCommonConfigService implements IMailCommonConfigService {
         return String(this.configService.get<string>(`mail-common.senderAddress`))
     }
 
-    get supportUrl(): string {
-        return String(this.configService.get<string>(`mail-common.supportUrl`))
-    }
-
-    get supportEmail(): string {
-        return String(this.configService.get<string>(`mail-common.supportEmail`))
-    }
-
-    get privacyPolicyUrl(): string {
-        return String(this.configService.get<string>(`mail-common.privacyPolicyUrl`))
-    }
-
-    get termsOfUseUrl(): string {
-        return String(this.configService.get<string>(`mail-common.termsOfUseUrl`))
+    get siteUrl(): string {
+        return String(this.configService.get<string>(`mail-common.siteUrl`))
     }
 
     get mailVerificationCallbackUrl(): string {

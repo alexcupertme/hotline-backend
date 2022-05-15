@@ -5,6 +5,7 @@ import { User } from '@core/decorators/user.decorator'
 import { defaultUserGroupsForSerializing } from '@core/serializers/model.serializer'
 import { MailEntity } from '@models/mail/serializers/mail.serializer'
 import { Body, Controller, Get, Ip, Post, SerializeOptions } from '@nestjs/common'
+import { Throttle } from '@nestjs/throttler'
 import { UserEntity } from '../user/serializer/user.serializer'
 import { AuthService } from './auth.service'
 import { LoginDocs } from './decorators/login.docs.decorator'
@@ -24,12 +25,14 @@ import { VerifyMailResponseDto } from './dto/verify-mail.auth.dto'
 export class AuthController {
     constructor(private readonly authService: AuthService) {}
 
+    @Throttle(5, 300)
     @Post('/register')
     @RegistrationDocs()
     async registration(@Body() inputs: RegisterRequestDto): Promise<UserEntity> {
         return await this.authService.register(inputs)
     }
 
+    @Throttle(10, 300)
     @LocalAuth(LoginUserRequestDto)
     @Post('/login')
     @LoginDocs()
@@ -44,18 +47,21 @@ export class AuthController {
         return await this.authService.logout(user)
     }
 
+    @Throttle(5, 300)
     @JwtMail()
     @Get('/verify-mail')
     async verifyMail(@MailUser() user: UserEntity, @Mail() mail: MailEntity): Promise<VerifyMailResponseDto> {
         return await this.authService.verifyMail(user, mail)
     }
 
+    @Throttle(3, 300)
     @JwtAuth()
     @Get('/request-reset-password')
     async requestResetPassword(@Ip() ip: string, @User() user: UserEntity): Promise<RequestResetPasswordResponseDto> {
         return await this.authService.requestResetPassword(user, ip)
     }
 
+    @Throttle(5, 300)
     @JwtMail()
     @Post('/reset-password')
     async resetPassword(

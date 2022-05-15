@@ -13,4 +13,11 @@ export class MailsRepository extends ModelRepository<Mail, MailEntity> {
     override transformMany(models: Mail[]): MailEntity[] {
         return models.map((model) => this.transform(model))
     }
+
+    async tryTerminateUserActiveAction(actionName: string, email: string) {
+        await this.update(
+            { actionName, isActionCompleted: false, isActionTerminated: false, email },
+            { isActionTerminated: true }
+        )
+    }
 }

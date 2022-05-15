@@ -12,12 +12,16 @@ import configuration from './configuration'
             validationSchema: Joi.object({
                 MAIL_APP_NAME: Joi.string().required(),
                 MAIL_SENDER_ADDRESS: Joi.string().required(),
-                MAIL_SUPPORT_URL: Joi.string().required(),
-                MAIL_SUPPORT_EMAIL: Joi.string().required(),
+                MAIL_SITE_URL: Joi.string().required(),
                 MAIL_PRIVACY_POLICY_URL: Joi.string().required(),
                 MAIL_TERMS_OF_USE_URL: Joi.string().required(),
                 MAIL_MAIL_VERIFICATION_CALLBACK_URL: Joi.string().required(),
                 MAIL_RESET_PASSWORD_CALLBACK_URL: Joi.string().required(),
+
+                MAIL_SMTP_HOST: Joi.string().required(),
+                MAIL_SMTP_USER: Joi.string().required(),
+                MAIL_SMTP_PASSWORD: Joi.string().required(),
+                MAIL_SMTP_PORT: Joi.number().required(),
             }),
         }),
     ],

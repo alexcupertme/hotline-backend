@@ -1,17 +1,16 @@
-import { SMTPSendpulseRequest } from '@api/sendpulse/sendpulse-api.interface'
+import { ISendMailOptions, MailerService } from '@nestjs-modules/mailer'
 import { Process, Processor } from '@nestjs/bull'
-import { Inject } from '@nestjs/common'
 import { Job } from 'bull'
-import { ISendpulseAPIService } from './../../api/sendpulse/sendpulse-api.interface'
 import { IConsumer } from './../consumer.interface'
+import { RequiredData } from './typings'
 
 @Processor('mail')
-export class MailConsumer implements IConsumer<SMTPSendpulseRequest> {
-    constructor(@Inject(ISendpulseAPIService) private mailService: ISendpulseAPIService) {}
+export class MailConsumer<T extends RequiredData> implements IConsumer<ISendMailOptions> {
+    constructor(private mailerService: MailerService) {}
 
     @Process()
-    async processTask(job: Job<SMTPSendpulseRequest>): Promise<SMTPSendpulseRequest> {
-        await this.mailService.sendMail(job.data)
+    async processTask(job: Job<ISendMailOptions & T>): Promise<ISendMailOptions & T> {
+        await this.mailerService.sendMail(job.data)
         return job.data
     }
 }

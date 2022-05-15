@@ -3,7 +3,7 @@ import { BadRequestException, Inject, Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { UserEntity } from '../user/serializer/user.serializer'
 import { UsersRepository } from '../user/user.repository'
-import { IMailVerificationService } from './../../mail/mail-verification/mail-verification.interface'
+import { IMailVerificationMailingService } from './../../mail/mail-verification/mail-verification.interface'
 import { IResetPasswordMailingService } from './../../mail/reset-password/reset-password.interface'
 import { MailEntity } from './../mail/serializers/mail.serializer'
 import { RegisterRequestDto } from './dto/register.auth.dto'
@@ -15,7 +15,8 @@ export class AuthService {
         @InjectRepository(UsersRepository)
         private readonly usersRepository: UsersRepository,
         @Inject(IJwtAuthService) private readonly jwtAuthService: IJwtAuthService,
-        @Inject(IMailVerificationService) private readonly mailVerificationService: IMailVerificationService,
+        @Inject(IMailVerificationMailingService)
+        private readonly mailVerificationService: IMailVerificationMailingService,
         @Inject(IResetPasswordMailingService) private readonly resetPasswordMailingService: IResetPasswordMailingService
     ) {}
 
@@ -48,7 +49,7 @@ export class AuthService {
         if (user.isMailVerified) throw new BadRequestException('Your account already verified! Please, re-login')
 
         await this.usersRepository.updateEntity(user, { isMailVerified: true })
-        await this.mailVerificationService.finishVerification(mail)
+        await this.mailVerificationService.finishAction(mail)
 
         return { success: true }
     }
@@ -61,7 +62,7 @@ export class AuthService {
     async resetPassword(dto: ResetPasswordRequestDto, user: UserEntity, mail: MailEntity) {
         await this.usersRepository.changePassword(user, dto.password)
 
-        await this.resetPasswordMailingService.finishPasswordReset(mail)
+        await this.resetPasswordMailingService.finishAction(mail)
 
         return { success: true }
     }
