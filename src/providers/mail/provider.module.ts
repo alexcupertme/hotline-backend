@@ -23,7 +23,6 @@ import { IMailCommonConfigService } from './../../config/mail/common/config.inte
                             pass: mailCommonConfigService.smtpPassword,
                         },
                     },
-                    preview: true,
                     defaults: {
                         from: `"No Reply" <${mailCommonConfigService.senderAddress}>`,
                     },
