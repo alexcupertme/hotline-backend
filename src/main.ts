@@ -9,8 +9,8 @@ import { resolve } from 'path'
 import { AppModule } from './app.module'
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule)
-    app.enableCors()
+    const app = await NestFactory.create(AppModule, { cors: true })
+
     app.enableVersioning({
         type: VersioningType.URI,
         defaultVersion: '1',
