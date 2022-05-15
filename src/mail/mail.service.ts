@@ -28,7 +28,7 @@ export class MailService implements IMailService {
     ) {}
 
     protected async createMail<T extends RequiredData & MailData>(data: T): Promise<SendMailResponse> {
-        await this.mailsRepository.tryTerminateUserActiveAction(data.email, data.actionName)
+        await this.mailsRepository.tryTerminateUserActiveAction(data.actionName, data.email)
 
         const mail = await this.mailsRepository.createEntity({
             email: data.email,
