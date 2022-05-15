@@ -1,7 +1,5 @@
 import { UsersModule } from '@models/user/user.module'
 import { Module } from '@nestjs/common'
-import { APP_GUARD } from '@nestjs/core'
-import { ThrottlerGuard } from '@nestjs/throttler'
 import { PostgresDatabaseProviderModule } from 'providers/database/postgres/provider.module'
 import { AuthModule } from './models/auth/auth.module'
 import { RedisDatabaseProviderModule } from './providers/database/redis/provider.module'
@@ -20,11 +18,12 @@ import { ThrottlingProviderModule } from './providers/throttling/provider.module
         AuthModule,
     ],
     controllers: [],
-    providers: [
-        {
-            provide: APP_GUARD,
-            useClass: ThrottlerGuard,
-        },
-    ],
+    // providers: [
+    //     {
+    //         provide: APP_GUARD,
+    //         useClass: ThrottlerGuard,
+    //     },
+    // ],
+    // TODO: Remove that in prod
 })
 export class AppModule {}
