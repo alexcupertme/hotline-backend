@@ -17,11 +17,13 @@ export class DevelopmentService {
     async deleteUserWithMailsByEmail(dto: DeleteUserWithMailsByEmailRequestDto) {
         await this.mailsRepository.delete({ email: dto.email })
         await this.usersRepository.delete({ email: dto.email })
+
         return { success: true }
     }
 
     async deactivateUserEmailByEmail(dto: DeactivateUserEmailByEmailRequestDto) {
         await this.usersRepository.update({ email: dto.email }, { isMailVerified: false })
+
         return { success: true }
     }
 }
