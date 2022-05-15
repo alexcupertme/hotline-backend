@@ -13,8 +13,7 @@ import configuration from './configuration'
                 MAIL_APP_NAME: Joi.string().required(),
                 MAIL_SENDER_ADDRESS: Joi.string().required(),
                 MAIL_SITE_URL: Joi.string().required(),
-                MAIL_PRIVACY_POLICY_URL: Joi.string().required(),
-                MAIL_TERMS_OF_USE_URL: Joi.string().required(),
+
                 MAIL_MAIL_VERIFICATION_CALLBACK_URL: Joi.string().required(),
                 MAIL_RESET_PASSWORD_CALLBACK_URL: Joi.string().required(),
 
