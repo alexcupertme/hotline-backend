@@ -24,3 +24,5 @@ export class DevelopmentController {
         return await this.developmentService.deactivateUserEmailByEmail(dto)
     }
 }
+
+// TODO: Disable this in prod
