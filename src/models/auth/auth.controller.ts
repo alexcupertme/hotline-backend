@@ -14,6 +14,7 @@ import { RegistrationDocs } from './decorators/registration.docs.decorator'
 import { LoginUserRequestDto } from './dto/login.auth.dto'
 import { RegisterRequestDto } from './dto/register.auth.dto'
 import { RequestResetPasswordResponseDto } from './dto/request-reset-password.dto'
+import { RequestVerifyMailResponseDto } from './dto/request-verify-mail.dto'
 import { ResetPasswordRequestDto, ResetPasswordResponseDto } from './dto/reset-password.auth.dto'
 import { VerifyMailResponseDto } from './dto/verify-mail.auth.dto'
 
@@ -52,6 +53,13 @@ export class AuthController {
     @Get('/verify-mail')
     async verifyMail(@MailUser() user: UserEntity, @Mail() mail: MailEntity): Promise<VerifyMailResponseDto> {
         return await this.authService.verifyMail(user, mail)
+    }
+
+    @Throttle(3, 300)
+    @JwtAuth()
+    @Get('/request-verify-mail')
+    async requestVerifyMail(@User() user: UserEntity): Promise<RequestVerifyMailResponseDto> {
+        return await this.authService.requestVerifyMail(user)
     }
 
     @Throttle(3, 300)

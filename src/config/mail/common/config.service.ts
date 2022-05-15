@@ -4,7 +4,7 @@ import { IMailCommonConfigService } from './config.interface'
 
 @Injectable()
 export class MailCommonConfigService implements IMailCommonConfigService {
-    constructor(private configService: ConfigService) {}
+    constructor(private readonly configService: ConfigService) {}
 
     get smtpPassword(): string {
         return String(this.configService.get<string>(`mail-common.smtpPassword`))

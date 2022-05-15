@@ -4,7 +4,7 @@ import { IRedisConfigService } from './config.interface'
 
 @Injectable()
 export class RedisConfigService implements IRedisConfigService {
-    constructor(private configService: ConfigService) {}
+    constructor(private readonly configService: ConfigService) {}
 
     get host(): string {
         return String(this.configService.get<string>(`redis.host`))

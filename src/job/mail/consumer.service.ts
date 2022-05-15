@@ -6,7 +6,7 @@ import { RequiredData } from './typings'
 
 @Processor('mail')
 export class MailConsumer<T extends RequiredData> implements IConsumer<ISendMailOptions> {
-    constructor(private mailerService: MailerService) {}
+    constructor(private readonly mailerService: MailerService) {}
 
     @Process()
     async processTask(job: Job<ISendMailOptions & T>): Promise<ISendMailOptions & T> {

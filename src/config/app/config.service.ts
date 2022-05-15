@@ -4,7 +4,7 @@ import { IAppConfigService } from './config.interface'
 
 @Injectable()
 export class AppConfigService implements IAppConfigService {
-    constructor(private configService: ConfigService) {}
+    constructor(private readonly configService: ConfigService) {}
 
     get port(): number {
         return Number(this.configService.get<string>(`app.port`))

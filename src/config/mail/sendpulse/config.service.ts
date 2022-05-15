@@ -4,7 +4,7 @@ import { ISendpulseConfigService } from './config.interface'
 
 @Injectable()
 export class SendpulseConfigService implements ISendpulseConfigService {
-    constructor(private configService: ConfigService) {}
+    constructor(private readonly configService: ConfigService) {}
 
     get oauthGateway(): string {
         return String(this.configService.get<string>(`sendpulse.oauthGateway`))

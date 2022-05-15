@@ -4,7 +4,7 @@ import { IPostgresConfigService } from './config.interface'
 
 @Injectable()
 export class PostgresConfigService implements IPostgresConfigService {
-    constructor(private configService: ConfigService) {}
+    constructor(private readonly configService: ConfigService) {}
 
     get host(): string {
         return String(this.configService.get<string>(`postgres.host`))

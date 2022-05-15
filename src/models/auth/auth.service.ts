@@ -27,8 +27,6 @@ export class AuthService {
         if (oldUser) throw new BadRequestException('User with this email already exists')
         const newUser = await this.usersRepository.createUser(dto)
 
-        await this.mailVerificationService.sendMail(dto.email, `${dto.firstName} ${dto.lastName}`, newUser)
-
         return newUser
     }
 
@@ -43,6 +41,14 @@ export class AuthService {
     async logout(user: UserEntity) {
         await this.usersRepository.terminateSession(user)
         this.jwtAuthService.deactivateTokenBySessionID(user.sessionID)
+    }
+
+    async requestVerifyMail(user: UserEntity) {
+        if (user.isMailVerified) throw new BadRequestException('Your account already verified! Please, re-login')
+
+        await this.mailVerificationService.sendMail(user.email, `${user.firstName} ${user.lastName}`, user)
+
+        return { success: true }
     }
 
     async verifyMail(user: UserEntity, mail: MailEntity) {
