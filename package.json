@@ -32,7 +32,7 @@
         "@nestjs/platform-express": "^8.0.0",
         "@nestjs/swagger": "^5.2.1",
         "@nestjs/throttler": "^2.0.1",
-        "@nestjs/typeorm": "^8.0.3",
+        "@nestjs/typeorm": "^8.1.4",
         "@types/uuid": "^8.3.4",
         "argon2": "^0.28.5",
         "bull": "^4.8.2",
@@ -57,7 +57,7 @@
         "rimraf": "^3.0.2",
         "rxjs": "^7.2.0",
         "swagger-ui-express": "^4.3.0",
-        "typeorm": "0.2",
+        "typeorm": "0.3",
         "uuid": "^8.3.2"
     },
     "devDependencies": {
